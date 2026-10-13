@@ -6,11 +6,11 @@
 
 ## Key Files
 
-- `src/views/FestivalsView.vue`
-- `src/views/FestivalDetailView.vue`
-- `src/components/FestivalCard.vue`
-- `src/services/api.ts`: `getFestivals`, `getFestival`
-- `src/types/index.ts`: `Festival`, `PaginationMeta`
+- `src/pages/festival/`: `FestivalListPage`, `FestivalDetailPage` + `model/useFestivalList`, `useFestivalDetail`
+- `src/widgets/festival-calendar/`: `FestivalCalendar`, `FestivalDayPanel`, `lib/calendar.ts`
+- `src/features/festival-month-filter/`: 월 필터
+- `src/entities/festival/`: `FestivalCard`, `FestivalScheduleItem`, `lib/festival.ts`(기간 계산·포맷)
+- `packages/api/src/domains/festival/`: `festivalApi.getFestivals`, `getFestival`, `Festival`
 
 ## Core State
 

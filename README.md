@@ -17,7 +17,7 @@ Soulrip은 서울의 공공 관광 데이터를 혼자 여행하는 사용자의
 | Region             | Seoul                      |
 | Development Period | n일                         |
 | Team               | 3명                         |
-| Frontend           | Vue.js 3, TypeScript, Vite |
+| Frontend           | Vue.js 3, TypeScript, Vite, FSD, npm workspaces |
 | Backend            | FastAPI                    |
 | Database           | SQLite                     |
 | AI                 | OpenAI API                 |
@@ -246,15 +246,16 @@ Soulrip의 UI는 혼행 서비스라는 특성을 살리면서도 전통적인 �
 * Trendy
 * Modern Seoul
 * Image Driven
-* Light Theme
+* Light / Dark Theme
+* Mobile First
 
 ### Design System
 
 | Item            | Direction            |
 | --------------- | -------------------- |
 | Main Color      | Blue                 |
-| Theme           | Light                |
-| Font            | Pretendard           |
+| Theme           | Light / Dark (OS 설정 자동) |
+| Font            | SUIT Variable        |
 | Card            | 이미지 중심 카드            |
 | Inspiration     | Instagram, Pinterest |
 | Primary Content | 장소 탐색                |
@@ -268,9 +269,14 @@ Soulrip의 UI는 혼행 서비스라는 특성을 살리면서도 전통적인 �
 ### Frontend
 
 ```text
-Vue.js 3
+Vue.js 3 (Composition API, <script setup>)
 TypeScript
 Vite
+Vue Router
+npm workspaces 모노레포 (library + packages)
+Feature-Sliced Design
+ESLint + oxlint + Prettier
+husky + lint-staged + commitlint
 ```
 
 ### Backend
@@ -293,6 +299,249 @@ VS Code
 GitHub Copilot
 Git / GitHub
 ```
+
+---
+
+## Getting Started
+
+```bash
+npm install          # 의존성 설치 + workspace 패키지 링크 + husky 훅 설치
+cp .env.example .env # VITE_API_BASE_URL=http://localhost:8000/api/v1
+npm run dev
+```
+
+| Script | 설명 |
+|---|---|
+| `npm run dev` | 개발 서버 |
+| `npm run build` | 타입 검사 + 프로덕션 빌드 |
+| `npm run check` | Prettier 검사 + oxlint + ESLint + vue-tsc (CI용, 수정 없음) |
+| `npm run lint` | oxlint + ESLint 자동 수정 |
+| `npm run format` | Prettier 전체 포맷 |
+
+---
+
+## Frontend Architecture
+
+npm workspaces 모노레포이다. 앱 코드(`src/`)는 **Feature-Sliced Design(FSD)**, 공통 코드는 `src` 바깥의 `library/`와 `packages/*`로 분리해 앱이 패키지처럼 가져다 쓴다.
+
+```text
+soul-frontend/
+├─ library/                     @soulrip/library       도메인 무관 공통 라이브러리
+│  └─ src/  date · pagination · async · storage · browser · string · url · geo · vue
+├─ packages/
+│  ├─ config/                   @soulrip/config        환경 변수, 언어 목록, 저장소 키, 페이지 크기
+│  ├─ font-suit/                @soulrip/font-suit     SUIT Variable 웹폰트 (self-hosted, OFL)
+│  ├─ design-system/            @soulrip/design-system 토큰 · 반응형 타이포 · 레이아웃 · S* 컴포넌트
+│  └─ api/                      @soulrip/api           HTTP 코어 + 도메인별 API
+│     └─ src/domains/  place · festival · post · comment · like · chat · insight
+│                      (각 도메인 = <domain>.types.ts + <domain>.api.ts + index.ts)
+└─ src/                         Feature-Sliced Design
+   ├─ app/        진입점, 라우터, 루트 레이아웃
+   ├─ pages/      서버 도메인별 페이지  home · place · festival · post · not-found
+   ├─ widgets/    app-header · mobile-tab-bar · app-footer · chatbot · today-insight
+   │              festival-calendar · location-map · post-comments
+   ├─ features/   place-filter · post-filter · festival-month-filter · post-like · post-delete
+   │              post-editor · comment-create · place-bookmark · share-link · theme-toggle · language-switch
+   ├─ entities/   place · festival · post · comment
+   └─ shared/     i18n(7개 언어) · model(테마·언어) · config(라우트·내비) · lib · assets
+```
+
+### 관심사 분리
+
+| 관심사 | 위치 |
+|---|---|
+| 타입 | `packages/api/src/domains/<domain>/<domain>.types.ts` |
+| API 호출 | `packages/api/src/domains/<domain>/<domain>.api.ts` |
+| 상태·로직 | 각 슬라이스의 `model/use*.ts` |
+| 순수 함수 | 각 슬라이스의 `lib/*.ts`, 범용은 `library/` |
+| 화면 | 각 슬라이스의 `ui/*.vue` |
+
+### Import 규칙 (ESLint로 강제)
+
+```ts
+// 같은 슬라이스/폴더 내부 → 상대 경로
+import { usePostLike } from '../model/usePostLike'
+
+// 다른 슬라이스·레이어·패키지 → 절대 경로
+import { PlaceCard } from '@/entities/place'
+import { placeApi } from '@soulrip/api'
+import { http } from '@soulrip/api/core'        // 패키지 내부의 다른 폴더도 패키지 이름으로
+```
+
+- 레이어 방향 `app → pages → widgets → features → entities → shared` (역방향 import 금지)
+- 같은 레이어 슬라이스끼리 import 금지, 슬라이스는 `index.ts`(public API)로만 접근
+- 패키지는 앱 코드(`@/...`)를 import 할 수 없음
+
+---
+
+## Design System & Responsive
+
+전체 규칙은 [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md)에 있다.
+
+### 글자 크기 — 화면 폭에 따라 자동 조절
+
+**① 루트 글자 크기** (모든 rem이 함께 변함, % 단위라 사용자 브라우저 설정도 존중)
+
+| 화면 폭 | 1rem | 대상 |
+|---|---|---|
+| ~359px | 14px (87.5%) | 갤럭시 폴드 접힘, iPhone SE 1세대 |
+| 360~389px | 15px (93.75%) | 일반 안드로이드, iPhone mini |
+| 390~1439px | 16px (100%) | 최신 스마트폰 ~ 노트북 |
+| 1440~1919px | 17px (106.25%) | 와이드 모니터 |
+| 1920px~ | 18px (112.5%) | FHD 이상 |
+
+**② 제목 크기 토큰** (본문은 1rem 고정, 제목만 단계적으로)
+
+| 토큰 | ~359 | 360~479 | 480~767 | 768~1023 | 1024~ |
+|---|---|---|---|---|---|
+| 히어로 `--fs-display` | 2.25rem | 2.5rem | 3rem | 3.5rem | 4.5rem |
+| 페이지 제목 `--fs-h1` | 1.625rem | 1.75rem | 2rem | 2.375rem | 2.75rem |
+| 섹션 제목 `--fs-h2` | 1.3125rem | 1.375rem | 1.5rem | 1.75rem | 2rem |
+| 카드 제목 `--fs-h3` | 1.125rem | 1.125rem | 1.1875rem | 1.25rem | 1.3125rem |
+
+입력창은 항상 16px 이상이라 iOS에서 포커스 시 화면이 확대되지 않는다.
+
+### 화면 폭별 배치
+
+| 폭 | 주요 변화 |
+|---|---|
+| **~479px** | 하단 탭바 내비게이션, 챗봇 전체 화면, 모달은 바텀시트, 카드 1열, CTA 버튼 가로 100%, 필터 칩 가로 스크롤, 달력은 점 표시 |
+| **480px~** | 카드 2열, 폼 입력 2열, 페이지 번호 3개 → 5개, AI 인사이트 사진 표시 |
+| **768px~** | 탭바 → 상단 메뉴, 챗봇 플로팅 패널, 모달 중앙 다이얼로그, 게시글 2열, 섹션 헤더 버튼 오른쪽, 달력에 축제 이름 표시 |
+| **1024px~** | 홈 히어로 2단, 상세 화면 본문 + 사이드(sticky) 2단, 축제 달력 + 선택일 패널 2단, 카드 3열 |
+| **1280px~** | 게시글 3열, 헤더에 `Seoul` 칩 |
+| **1440px~** | 카드 4열, 루트 글자 17px |
+
+### 디자인 시스템 구성
+
+- **토큰**: 의미 기반 색상(라이트/다크), 간격, 반경, 그림자, z-index, 모션
+- **폰트**: SUIT Variable (일본어·중국어는 시스템 폰트로 자연스럽게 폴백)
+- **컴포넌트**: `SButton` `SIconButton` `SCard` `SBadge` `STag` `SChipGroup` `SField` `SInput` `STextarea` `SSelect` `SSearchField` `SPagination` `SSkeleton` `SEmptyState` `SModal` `SSectionHeader` `SInfoList` `SImage` `SMediaHero` `SAvatar` `SSpinner`
+
+---
+
+## Internationalization
+
+외국인 여행자도 사용할 수 있도록 **모든 UI 문구를 7개 언어**로 제공한다.
+
+| 코드 | 언어 | 코드 | 언어 |
+|---|---|---|---|
+| `ko` | 한국어 | `fr` | Français |
+| `en` | English | `es` | Español |
+| `ja` | 日本語 | `de` | Deutsch |
+| `zh` | 中文(简体) | | |
+
+- 첫 방문 시 **브라우저 언어를 자동 감지**하고, 선택한 언어는 저장된다.
+- 사전: `src/shared/i18n/locales/*.ts` — `ko.ts`가 스키마이며 다른 언어에 키가 빠지면 **타입 오류**가 난다.
+- 날짜·월·요일·숫자는 `Intl`로 각 언어 형식에 맞게 표시한다. (예: `10월` / `Oct` / `10月` / `oct.`)
+- 문서 제목, 접근성 라벨(aria-label), 디자인 시스템 내부 문구까지 번역된다.
+- 장소명·축제 설명 등 **백엔드 데이터는 서버가 주는 언어 그대로** 표시된다. 챗봇에는 현재 언어가 전달된다.
+
+---
+
+## Conventions
+
+브랜치·커밋·PR 규칙은 [`CONTRIBUTING.md`](CONTRIBUTING.md)에 있다.
+
+```text
+브랜치  <type>/<설명>            feat/place-bookmark, fix/42-comment-count
+커밋    <type>(<scope>): <제목>   feat(place): 장소 목록 URL 쿼리 동기화
+```
+
+| 시점 | 자동 검사 (husky) |
+|---|---|
+| commit | 브랜치 이름 검사(main 직접 커밋 차단) → lint-staged(oxlint · ESLint · Prettier) |
+| commit-msg | commitlint (Conventional Commits) |
+| push | 브랜치 이름 검사 → `npm run type-check` |
+
+---
+
+## Gamification — 서울 혼행 여정 지도
+
+홈 화면에 **서울 25개 자치구 지도**가 있다. 구를 누르면 그 구 이름으로 장소를 검색해 **무작위 최대 10곳**을 오른쪽 목록에 보여주고, 다른 구를 누르면 그 구에 맞게 바뀐다.
+
+| 상태 | 오른쪽 목록 |
+|---|---|
+| 구 선택 안 함 (ALL) | 검색어 없이 받아 **여러 구가 골고루 섞이도록** 최대 10곳 |
+| 구 선택 | `q=<구 이름>`으로 검색한 결과 중 무작위 최대 10곳 (같은 구를 다시 누르면 ALL) |
+| API 연결 실패 | 25개 구 대표 명소 **예시 데이터** + "예시 데이터" 안내 |
+| **전체 보기** | 서울 탐색 페이지(`/explore?q=<구 이름>`)로 이동해 그 구 전체 검색 결과 표시 |
+
+- **지도 색칠**: 둘러본 구가 색으로 채워지고 `둘러본 구 n / 25`가 올라간다.
+- **미션 5개** (앱에서 실제로 하면 자동 완료 → 어느 화면에서든 완료 알림)
+
+| # | 미션 | 완료 조건 |
+|---|---|---|
+| 01 | 장소 탐색 | 장소 상세 페이지 열기 |
+| 02 | 북마크 | 장소 북마크 |
+| 03 | 축제 확인 | 축제 상세 페이지 열기 |
+| 04 | AI 챗봇 | 챗봇 답변 받기 |
+| 05 | 경험 공유 | 좋아요 · 댓글 · 새 글 중 하나 |
+
+- 레벨: 혼행 준비생(0) → 입문자(1~2) → 탐험가(3~4) → **서울 혼행 마스터(5)**
+- 진행 상황은 로그인 없이 브라우저(localStorage)에 저장, "처음부터 다시"로 초기화
+- 반응형: 1024px 이상 지도(고정) | 추천 목록 2단 / 미만은 지도 → 구 선택 칩(가로 스크롤) → 목록
+- 구 이름은 7개 언어로 표시(Gangnam-gu, 江南区 …), 검색은 데이터 기준인 한국어 이름으로 한다.
+- 지도 경계: 통계청(KOSTAT) 센서스용 행정구역경계(2013) 간소화 데이터를 SVG로 변환 (`seoul-map.generated.ts`)
+
+코드: `src/entities/district`(구 목록·지도·예시 데이터·탐험 상태), `src/entities/journey`(미션·레벨), `src/widgets/journey-map`(지도 + 추천 목록 + 진행 현황), `src/widgets/journey-toast`
+
+---
+
+## Changelog
+
+### 2026-10-13 — 서울 자치구 여정 지도
+
+- 여정 지도를 서울 25개 자치구 SVG 지도로 교체: 구 선택 → 구 이름 검색 → 무작위 최대 10곳 추천
+- 선택 없음(ALL)은 여러 구 골고루, API 실패 시 예시 데이터, "전체 보기"는 서울 탐색 검색으로 이동
+- 둘러본 구 색칠(탐험 n/25), 미션은 진행 현황 칩으로 이동
+- `@soulrip/library`에 `shuffle`, `pickSpread` 추가
+
+### 2026-10-13 — 혼행 여정 지도(게이미피케이션)
+
+- 홈에 도면형 여정 지도 + 5단계 미션 + 스탬프·레벨·완료 알림 추가
+- 장소·북마크·축제·챗봇·커뮤니티 행동과 미션 자동 연결
+- 챗봇 열림 상태를 전역 공유해 지도에서 바로 열 수 있게 변경
+- `@soulrip/library/vue`에 `useScrollSpy` 추가
+- 헤더 로고 이미지 제거(텍스트만), 히어로 제목 밑줄 제거, 챗봇 고양이 이미지 잘림 수정
+
+### 2026-10-13 — 프론트엔드 구조 개편
+
+**구조**
+
+- `src/views · components · services · types · composables` → **FSD 레이어**(`app/pages/widgets/features/entities/shared`)로 재구성
+- 페이지를 서버 도메인별(`home`, `place`, `festival`, `post`, `not-found`)로 배치
+- 공통 코드를 `src` 바깥 workspace 패키지로 분리: `@soulrip/library`, `@soulrip/config`, `@soulrip/font-suit`, `@soulrip/design-system`, `@soulrip/api`
+- API를 도메인별(place / festival / post / comment / like / chat / insight) **타입 · 요청 파일로 분리**, 오류는 `ApiError`로 통일
+- 각 슬라이스를 `ui`(화면) / `model`(상태·로직) / `lib`(순수 함수)로 관심사 분리
+
+**디자인 시스템 · 반응형**
+
+- 디자인 토큰, 라이트/다크 테마(OS 설정 자동 + 첫 화면 깜빡임 방지), SUIT 폰트, 공통 컴포넌트 21종
+- 폭별 루트 글자 크기 + 제목 타입 스케일, 브레이크포인트 7단계
+- 모바일 하단 탭바, 전체 화면 챗봇, 바텀시트 모달, 가로 스크롤 없는 모바일 축제 달력, safe-area(노치) 대응
+- 다크 모드에서 흰 배경이 남던 화면(목록·폼·상세·달력) 수정
+
+**다국어**
+
+- DOM 텍스트를 사후 치환하던 방식 → **타입 검사되는 7개 언어 사전**으로 교체, 전 화면 번역
+- 브라우저 언어 자동 감지, `Intl` 기반 날짜·숫자 포맷, 일본어·중국어 줄바꿈 처리
+
+**화면 보완**
+
+- 장소·게시글·축제 목록의 검색/필터/페이지를 **URL 쿼리와 동기화** (새로고침·뒤로가기·공유 유지)
+- 홈 인기 키워드가 실제 검색으로 연결되도록 수정, 존재하지 않던 `/chat` 링크 제거
+- 홈 섹션을 독립 로딩(한 섹션 실패가 전체를 막지 않음), 통계를 API 실제 개수로 표시
+- 장소 목록 페이지네이션 추가, 축제 달력은 한 달치를 별도 요청(기존: 목록 12개만 표시)
+- 축제 상세 "동행 모집하기" → 글쓰기 화면에 유형·장소·날짜 미리 채움
+- 좋아요 상태 조회 실패가 게시글 전체 오류로 번지던 문제 수정
+- 챗봇: 추천 후속 질문·관련 장소 링크 표시, 대화 초기화, 언어 전환 시 인사말 즉시 번역
+- 404 페이지, 본문 바로가기 링크, 라우트별 문서 제목, 폼 라벨·오류 접근성 연결
+
+**개발 환경**
+
+- ESLint(flat config, FSD import 규칙) + oxlint + Prettier + EditorConfig
+- husky + lint-staged + commitlint, 브랜치 이름 검사, PR 템플릿
 
 ---
 

@@ -1,0 +1,16 @@
+{
+  "name": "@soulrip/font-suit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SUIT Variable 웹폰트 (SIL OFL 1.1) self-hosted 패키지",
+  "license": "OFL-1.1",
+  "exports": {
+    ".": "./suit.css",
+    "./suit.css": "./suit.css"
+  },
+  "files": [
+    "suit.css",
+    "fonts",
+    "LICENSE"
+  ]
+}

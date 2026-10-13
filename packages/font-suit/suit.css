@@ -1,0 +1,17 @@
+/*
+ * SUIT Variable — https://sun.fo/suit
+ * Copyright (c) 2022, SUNN. SIL Open Font License 1.1 (./LICENSE)
+ *
+ * 가변 폰트 하나로 100~900 굵기를 모두 제공한다.
+ * 한글·라틴 글리프만 포함하므로 일본어/중국어는 디자인 시스템의
+ * --font-sans 폴백 스택(Hiragino, PingFang 등)으로 렌더링된다.
+ */
+@font-face {
+  font-family: 'SUIT Variable';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src:
+    url('./fonts/SUIT-Variable.woff2') format('woff2-variations'),
+    url('./fonts/SUIT-Variable.woff2') format('woff2');
+}

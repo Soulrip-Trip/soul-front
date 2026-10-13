@@ -6,7 +6,9 @@
 - [ ] 관련 없는 파일이 바뀌지 않았는가?
 - [ ] `any` 또는 임의의 백엔드 필드를 추가하지 않았는가?
 - [ ] loading / error / empty 상태를 확인했는가?
-- [ ] 모바일 폭에서 핵심 조작이 가능한가?
+- [ ] 360 / 768 / 1440px에서 가로 스크롤 없이 핵심 조작이 가능한가? (`docs/DESIGN_SYSTEM.md` §4)
+- [ ] 새 문구를 7개 언어 사전에 모두 추가했는가?
+- [ ] import 규칙(같은 슬라이스 상대 경로, 그 외 절대 경로)을 지켰는가?
 - [ ] 아이콘 버튼/입력/이미지 접근성을 확인했는가?
 - [ ] 비밀번호/API 키/환경값을 코드나 로그에 노출하지 않았는가?
 
@@ -44,10 +46,10 @@
 ## Automated Verification
 
 ```bash
-npm run type-check
-npm run lint
-git diff
+npm run check   # prettier --check + oxlint + eslint + vue-tsc
 npm run build
+npm run lint    # 자동 수정 포함
+git diff
 ```
 
 `npm run lint`가 파일을 수정할 수 있으므로 반드시 diff를 다시 본다.

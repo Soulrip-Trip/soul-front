@@ -1,83 +1,102 @@
 # Soulrip Frontend Architecture
 
-## Current Data Flow
+## Overview
+
+npm workspaces 모노레포. 앱(`src/`)은 Feature-Sliced Design(FSD), 공통 코드는 `library/`와 `packages/*`로 분리한다.
 
 ```text
-Route
-  ↓
-View
-  ├─ page state / loading / error / filter
-  ├─ Service API call
-  └─ Components composition
-       ↓
-Reusable Components
+┌──────────────────────────── src (FSD) ────────────────────────────┐
+│ app → pages → widgets → features → entities → shared              │
+└──────────────┬─────────────────────────────────────────────────────┘
+               │ import (절대 경로 @soulrip/*)
+┌──────────────▼───────────── packages ─────────────────────────────┐
+│ @soulrip/api  →  @soulrip/config                                   │
+│ @soulrip/design-system  →  @soulrip/font-suit                      │
+└──────────────┬─────────────────────────────────────────────────────┘
+               ▼
+          @soulrip/library  (도메인 무관 유틸 + Vue 컴포저블)
+```
 
-View or intentional feature widget
-  ↓
-services/api.ts
-  ↓
-Backend API
+## Data Flow
 
-Shared contracts → types/index.ts
-Shared app state → composables/
-Static translations → i18n/
+```text
+Route (app/router, props: true)
+  ↓
+pages/<domain>/ui/*Page.vue ── pages/<domain>/model/use*.ts
+  │                               ├─ URL 쿼리 ↔ 상태 (useQueryPatch)
+  │                               └─ @soulrip/api 도메인 API (useAsyncState)
+  ├─ widgets  (chatbot, festival-calendar, post-comments …)
+  ├─ features (post-like, post-delete, post-editor …)  ── model/use*.ts → @soulrip/api
+  └─ entities (PlaceCard, FestivalCard, PostCard …)    ── lib/*.ts 도메인 규칙
+        ↓
+@soulrip/design-system (S* 컴포넌트, 토큰, 반응형 CSS)
 ```
 
 ## Folder Responsibilities
 
-### `src/views`
+### `packages/api` (`@soulrip/api`)
 
-URL과 연결되는 페이지 단위 경계다. route param, API 로딩, 페이지 필터/페이지네이션, 화면 조합을 담당한다.
+HTTP 경계. `core/`(http 클라이언트, `ApiError`, 페이지네이션 타입)와 서버 라우터 단위의 `domains/<domain>/`(types + api)로 나뉜다.
 
-### `src/components`
+### `packages/design-system` (`@soulrip/design-system`)
 
-재사용 UI 경계다. 카드, 네비게이션, 지도, 챗봇 등 화면 요소를 담당한다. 일반적인 카드 컴포넌트는 API를 직접 호출하지 않는다.
+토큰(`tokens.css`), 반응형 타이포(`typography.css`), 레이아웃(`layout.css`), 기본 스타일, `S*` 컴포넌트, `useBreakpoint`, 다국어 주입(`provideDsMessages`). 도메인과 앱 i18n을 알지 못한다. 상세는 `docs/DESIGN_SYSTEM.md`.
 
-### `src/services/api.ts`
+### `packages/config`, `packages/font-suit`, `library`
 
-HTTP 경계다. base URL, headers, 에러 변환, query string, payload, 응답 타입을 한곳에서 관리한다.
+설정 상수 / 폰트 / 순수 유틸. 앱 코드를 import 하지 않는다.
 
-현재 서비스 파일이 하나이므로 기능 하나 추가할 때마다 파일을 쪼개지 않는다. API가 크게 성장해 탐색이 어려워질 때 places/community/chat 등 도메인 서비스 분리를 고려한다.
+### `src/app`
 
-### `src/types/index.ts`
+진입점(`main.ts`), 라우터, 루트 레이아웃(`App.vue`: 헤더·본문·푸터·탭바·챗봇), 문서 제목, 디자인 시스템 문구 주입.
 
-프론트 전체가 공유하는 API/도메인 타입의 단일 진입점이다. 현재 규모에서는 중앙화의 단순성이 장점이다.
+### `src/pages`
 
-### `src/composables`
+서버 도메인별 페이지 슬라이스(`home`, `place`, `festival`, `post`, `not-found`). 화면 조합과 URL 상태를 담당한다.
 
-재사용 반응형 상태/로직이다. 현재 `useApp`은 theme/language를 관리한다.
+### `src/widgets`
 
-### `src/i18n`
+여러 feature/entity를 묶은 독립 블록. 챗봇·AI 인사이트처럼 스스로 데이터를 불러오는 위젯을 허용한다.
 
-정적 페이지 문구와 번역 데이터다. 같은 문구 도메인을 여러 파일에서 중복 관리하지 않는 것이 중요하다.
+### `src/features`
+
+사용자 행동 하나(필터, 좋아요, 삭제, 작성, 북마크, 공유, 테마, 언어)의 상태와 UI.
+
+### `src/entities`
+
+도메인 객체의 표시 UI와 도메인 규칙(카테고리 매핑, 축제 기간 계산, 게시글 유형).
+
+### `src/shared`
+
+`i18n`(7개 언어 사전 + `useI18n`), `model`(테마·언어 `useAppSettings`), `config`(라우트·내비), `lib/router`(URL 쿼리 patch), `assets`.
+
+## Slice Anatomy
+
+```text
+<slice>/
+├─ ui/       Vue 컴포넌트 (화면만)
+├─ model/    use*.ts 컴포저블 (상태, 요청, 검증)
+├─ lib/      순수 함수
+└─ index.ts  public API — 외부는 이 파일로만 접근
+```
 
 ## Feature Placement Decision
 
 ```text
-새 URL이 필요한가?
- ├─ Yes → view + router
- └─ No
-     ↓
-여러 화면에서 재사용되는 UI인가?
- ├─ Yes → component
- └─ No → 현재 view 내부부터 시작
-
-백엔드 호출이 필요한가?
- ├─ Yes → services/api.ts + types
- └─ No
-
-반응형 로직이 여러 곳에서 재사용되는가?
- ├─ Yes → composable
- └─ No → 로컬 상태 유지
+새 URL이 필요한가?             → pages/<domain> + app/router
+여러 페이지에서 쓰는 조합 블록?  → widgets
+사용자의 한 가지 행동?          → features
+도메인 객체 표시/규칙?          → entities
+앱 전역 설정·문구?             → shared
+도메인 무관 UI?                → packages/design-system
+도메인 무관 로직?              → library
+백엔드 호출?                   → packages/api/src/domains/<domain>
 ```
 
-## Abstraction Criteria
+## Import Rules (ESLint `no-restricted-imports`로 강제)
 
-다음 중 두 가지 이상이 명확할 때 추출을 고려한다.
-
-- 같은 로직이 2곳 이상에서 반복된다.
-- 테스트/이해가 어려울 정도로 view가 커졌다.
-- 독립적인 비즈니스 상태 수명주기가 있다.
-- 코드 소유 책임이 명확히 다른 계층이다.
-
-단순히 파일 길이가 길다는 이유만으로 계층을 추가하지 않는다.
+- 같은 슬라이스/폴더 내부: 상대 경로 (최대 `../` 한 단계)
+- 그 외: 절대 경로 `@/<layer>/<slice>`, `@soulrip/<package>[/<folder>]`
+- 하위 레이어 → 상위 레이어 import 금지, 같은 레이어 슬라이스 간 import 금지(shared 제외)
+- 슬라이스 내부 파일 직접 import 금지 (`index.ts` 사용)
+- 패키지 → 앱 코드 import 금지

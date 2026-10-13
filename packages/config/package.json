@@ -1,0 +1,13 @@
+{
+  "name": "@soulrip/config",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Soulrip 앱 전역 설정 (환경 변수, 언어, 저장소 키, 페이지 크기)",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src"
+  ]
+}

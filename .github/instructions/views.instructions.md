@@ -1,20 +1,18 @@
 ---
-name: Soulrip Route Views
-description: 페이지 단위 데이터 로딩과 상태에 적용하는 규칙이다
-applyTo: "src/views/**/*.vue"
+name: Soulrip Pages
+description: 라우트 단위 페이지 슬라이스에 적용하는 규칙이다
+applyTo: "src/pages/**/*.vue,src/pages/**/*.ts"
 ---
 
-# View Rules
+# Page Rules
 
-뷰는 라우트 단위의 화면 조합 계층이다.
+페이지는 서버 도메인별(`home`, `place`, `festival`, `post`, `not-found`) 슬라이스이며 라우트 단위 화면 조합 계층이다.
 
-- 여러 라우트에서 재사용되는 로직이 아닌 경우 API 로딩과 페이지 상태는 해당 뷰에서 관리한다.
-- 페이지 내부에 동일한 마크업을 다시 만들기보다 기존 카드와 공통 컴포넌트를 재사용한다.
-- API 기반 화면은 로딩, 오류, 빈 상태, 성공 상태를 명시적으로 표현한다.
-- 필터가 바뀌면 이에 종속된 상태를 함께 초기화한다. 예를 들어 월이나 필터가 바뀌면 페이지네이션을 1페이지로 되돌려야 할 수 있다.
-- 입력할 때마다 네트워크 요청이 발생하는 자유 검색에는 debounce를 적용한다. 요구사항이 다르지 않다면 현재 Explore 화면의 패턴을 유지한다.
-- 라우트 파라미터는 실행 시 문자열이다. 숫자를 요구하는 API에 넘기기 전에 파싱하고 유효성을 검증한다.
-- 뷰 안에서 백엔드 요청 로직을 새로 작성하지 않고 `src/services/api.ts`를 확장한다.
-- 화면 이동은 브라우저 직접 이동보다 Vue Router의 `RouterLink`, `router.push`를 사용한다.
-- 화면 동작을 변경하면서 관련 없는 대규모 스타일 수정은 피한다.
-- 축제처럼 날짜 처리가 중요한 기능에서는 로컬 날짜가 하루 밀릴 수 있는 UTC 기반 단축 파싱을 피한다.
+- `ui/*Page.vue`는 위젯·피처·엔티티를 배치하고, 데이터 로딩과 URL 쿼리 동기화는 `model/use*.ts`에서 처리한다.
+- 목록 필터·검색·페이지는 URL 쿼리와 동기화한다(`useQueryPatch`). 한 사용자 동작은 한 번의 patch로 처리한다.
+- 필터가 바뀌면 페이지를 1로 되돌린다.
+- 자유 검색에는 `watchDebounced` + `SEARCH_DEBOUNCE_MS`를 사용한다.
+- 라우트 파라미터는 props로 받고, 숫자가 필요하면 파싱한다.
+- 로딩(`SSkeleton`/`SEmptyState tone="loading"`), 오류(재시도 버튼), 빈 상태를 모두 표현한다.
+- 다른 페이지 슬라이스를 import 하지 않는다. 공유가 필요하면 widget/feature/entity로 내린다.
+- 날짜는 UTC 단축 파싱(`new Date('YYYY-MM-DD')`)을 쓰지 않는다.

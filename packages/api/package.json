@@ -1,0 +1,25 @@
+{
+  "name": "@soulrip/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Soulrip 백엔드 API 클라이언트 — 도메인(place, festival, post, comment, like, chat, insight)별 타입과 요청 함수",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./core": "./src/core/index.ts",
+    "./place": "./src/domains/place/index.ts",
+    "./festival": "./src/domains/festival/index.ts",
+    "./post": "./src/domains/post/index.ts",
+    "./comment": "./src/domains/comment/index.ts",
+    "./like": "./src/domains/like/index.ts",
+    "./chat": "./src/domains/chat/index.ts",
+    "./insight": "./src/domains/insight/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@soulrip/config": "*",
+    "@soulrip/library": "*"
+  }
+}

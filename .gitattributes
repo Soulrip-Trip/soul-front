@@ -1,0 +1,5 @@
+# Windows/macOS 혼합 팀에서 줄바꿈을 LF로 통일한다.
+* text=auto eol=lf
+*.woff2 binary
+*.png binary
+*.jpg binary

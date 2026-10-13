@@ -6,10 +6,11 @@ Soulrip의 전역 AI 챗봇은 사용자가 서울 혼행 관련 장소/혼밥/�
 
 ## Key Files
 
-- `src/components/ChatBot.vue`
-- `src/services/api.ts`: `chat`
-- `src/types/index.ts`: `ChatHistoryItem`, `ChatSource`, `ChatResponse`
-- `src/composables/useApp.ts`: 현재 언어
+- `src/widgets/chatbot/ui/ChatbotWidget.vue`: 패널 UI (모바일 전체 화면 / 데스크톱 플로팅)
+- `src/widgets/chatbot/model/useChatbot.ts`: 대화 상태, 전송, 중복 전송 차단
+- `packages/api/src/domains/chat/`: `chatApi.sendMessage`, `ChatHistoryItem`, `ChatSource`, `ChatResponse`
+- `src/shared/i18n/locales/*.ts`: `chat.*` 문구 (인사말·추천 질문 7개 언어)
+- `src/shared/model/app-settings.ts`: 현재 언어
 
 ## Request Contract
 

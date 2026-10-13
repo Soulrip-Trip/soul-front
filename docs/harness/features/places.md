@@ -6,12 +6,11 @@
 
 ## Key Files
 
-- `src/views/ExploreView.vue`
-- `src/views/PlaceDetailView.vue`
-- `src/components/PlaceCard.vue`
-- `src/components/MapEmbed.vue`
-- `src/services/api.ts`: `getPlaces`, `getPlace`
-- `src/types/index.ts`: `Place`, `PlaceCategory`
+- `src/pages/place/`: `PlaceListPage`, `PlaceDetailPage` + `model/usePlaceList`(URL 쿼리 동기화), `usePlaceDetail`
+- `src/features/place-filter/`, `src/features/place-bookmark/`
+- `src/entities/place/`: `PlaceCard`, `model/category.ts`(분류 매핑), `lib/place.ts`
+- `src/widgets/location-map/`: `LocationMap`
+- `packages/api/src/domains/place/`: `placeApi.getPlaces`, `getPlace`, `Place`, `PlaceCategory`
 
 ## Current Contract
 
@@ -21,7 +20,7 @@
 ALL / TOUR / LEISURE / CULTURE / SHOPPING / ACCOMMODATION / COURSE / FESTIVAL
 ```
 
-`api.getPlaces`는 category/search/page/size를 받아 query string을 만든다. category는 백엔드의 contentType 값으로 매핑된다.
+`placeApi.getPlaces`는 category/search/page/size를 받아 query string을 만든다. category는 백엔드의 contentType 값으로 매핑된다.
 
 ## UI and Data Considerations
 

@@ -7,7 +7,7 @@ agent: agent
 
 다음 Soulrip 익명 커뮤니티 기능을 작업한다. `${input:change:변경할 커뮤니티 기능}`
 
-수정하기 전에 커뮤니티 목록, 작성/수정 폼, 상세 뷰, `PostCard.vue`, `src/services/api.ts`의 커뮤니티 메서드, 커뮤니티 관련 타입을 확인한다.
+수정하기 전에 커뮤니티 목록, 작성/수정 폼, 상세 뷰, `src/entities/post`, `packages/api/src/domains/{post,comment,like}`의 커뮤니티 메서드, 커뮤니티 관련 타입을 확인한다.
 
 다음 제품 계약을 유지한다.
 

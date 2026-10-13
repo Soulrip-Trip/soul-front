@@ -1,0 +1,10 @@
+dist
+coverage
+node_modules
+package-lock.json
+*.woff2
+packages/font-suit/LICENSE
+# 문서는 표/한글 줄바꿈이 깨지지 않도록 포맷 대상에서 제외한다.
+*.md
+# 자동 생성 파일
+*.generated.ts

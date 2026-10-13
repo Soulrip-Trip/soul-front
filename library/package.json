@@ -1,0 +1,26 @@
+{
+  "name": "@soulrip/library",
+  "version": "0.1.0",
+  "private": true,
+  "description": "도메인과 무관한 공통 유틸리티 (날짜, 페이지네이션, 비동기, 저장소, 브라우저, 문자열, URL, 좌표, Vue 컴포저블)",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./date": "./src/date/index.ts",
+    "./pagination": "./src/pagination/index.ts",
+    "./async": "./src/async/index.ts",
+    "./storage": "./src/storage/index.ts",
+    "./browser": "./src/browser/index.ts",
+    "./string": "./src/string/index.ts",
+    "./url": "./src/url/index.ts",
+    "./geo": "./src/geo/index.ts",
+    "./array": "./src/array/index.ts",
+    "./vue": "./src/vue/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  }
+}

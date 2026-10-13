@@ -6,12 +6,12 @@
 
 ## Key Files
 
-- `CommunityListView.vue`
-- `CommunityFormView.vue`
-- `CommunityDetailView.vue`
-- `PostCard.vue`
-- `src/services/api.ts`
-- `src/types/index.ts`
+- `src/pages/post/`: `PostListPage`, `PostDetailPage`, `PostEditorPage` + `model/usePostList`, `usePostDetail`
+- `src/entities/post/`: `PostCard`, `PostTypeBadge`, 게시글 유형 규칙
+- `src/entities/comment/`: `CommentItem`
+- `src/features/`: `post-filter`, `post-editor`, `post-like`, `post-delete`, `comment-create`
+- `src/widgets/post-comments/`: 댓글 목록 + 작성 폼
+- `packages/api/src/domains/{post,comment,like}/`
 
 ## Core Contract
 

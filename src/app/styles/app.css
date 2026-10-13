@@ -1,0 +1,39 @@
+/* 앱 셸 전용 스타일. 공통 스타일은 @soulrip/design-system/styles.css 에 있다. */
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+  flex-direction: column;
+  /* 768px 미만: 하단 탭바 높이만큼 콘텐츠를 띄운다. (md 이상은 --tabbar-height = 0) */
+  padding-bottom: calc(var(--tabbar-height) + var(--safe-bottom));
+}
+
+@media (min-width: 768px) {
+  .app-shell {
+    padding-bottom: 0;
+  }
+}
+
+.app-main {
+  flex: 1;
+  outline: none;
+}
+
+.skip-link {
+  position: fixed;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: var(--z-toast);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  font-weight: var(--fw-extrabold);
+  transform: translateY(-200%);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.skip-link:focus {
+  transform: none;
+}

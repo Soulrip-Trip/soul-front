@@ -1,0 +1,10 @@
+/*
+ * @soulrip/design-system 전역 스타일 진입점.
+ * 앱에서는 이 파일 하나만 import 한다. (import '@soulrip/design-system/styles.css')
+ */
+@import '@soulrip/font-suit/suit.css';
+@import './tokens.css';
+@import './typography.css';
+@import './layout.css';
+@import './base.css';
+@import './utilities.css';
