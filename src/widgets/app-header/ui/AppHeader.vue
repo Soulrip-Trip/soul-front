@@ -3,7 +3,6 @@ import { MapPin } from 'lucide-vue-next'
 import { useRoute } from 'vue-router'
 import { LanguageSwitch } from '@/features/language-switch'
 import { ThemeToggle } from '@/features/theme-toggle'
-import logo from '@/shared/assets/images/logo.png'
 import { HEADER_NAV, isNavActive, paths } from '@/shared/config'
 import { useI18n } from '@/shared/i18n'
 
@@ -13,17 +12,14 @@ const { t } = useI18n()
 
 <template>
   <!--
-    ~767px   : 로고 + 언어 + 테마. 메뉴는 하단 탭바(MobileTabBar)로 이동한다.
-    768px~   : 로고 + 상단 메뉴(아이콘+텍스트) + 언어(코드) + 테마
+    ~767px   : Soulrip + 언어 + 테마. 메뉴는 하단 탭바(MobileTabBar)로 이동한다.
+    768px~   : Soulrip + 상단 메뉴(아이콘+텍스트) + 언어(코드) + 테마
     1024px~  : 언어 버튼이 언어 이름 전체로 바뀐다.
     1280px~  : 'Seoul' 위치 칩이 추가된다.
   -->
   <header class="app-header">
     <div class="ds-container app-header__inner">
       <RouterLink class="app-header__brand" :to="paths.home()" :aria-label="t.nav.homeLink">
-        <span class="app-header__mark">
-          <img :src="logo" alt="" />
-        </span>
         <span class="app-header__name">Soulrip</span>
       </RouterLink>
 
@@ -84,28 +80,7 @@ const { t } = useI18n()
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
-  gap: var(--space-2);
   min-height: var(--tap-target);
-}
-
-.app-header__mark {
-  position: relative;
-  display: block;
-  width: 1.625rem;
-  height: 1.875rem;
-  overflow: hidden;
-  border-radius: var(--radius-xs);
-}
-
-/* 로고 원본에 여백이 많아 캐릭터 부분만 잘라 보여준다. */
-.app-header__mark img {
-  position: absolute;
-  top: -0.8rem;
-  left: -1.35rem;
-  width: 4.4rem;
-  height: 4.4rem;
-  max-width: none;
-  object-fit: contain;
 }
 
 .app-header__name {
@@ -116,11 +91,6 @@ const { t } = useI18n()
 }
 
 @media (min-width: 1024px) {
-  .app-header__mark {
-    width: 1.75rem;
-    height: 2rem;
-  }
-
   .app-header__name {
     font-size: 1.5rem;
   }
