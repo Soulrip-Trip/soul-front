@@ -1,6 +1,7 @@
 import { ref, toValue, watch, type MaybeRefOrGetter } from 'vue'
 import { likeApi } from '@soulrip/api'
 import { toErrorMessage } from '@soulrip/library'
+import { completeJourneyStep } from '@/entities/journey'
 import { useI18n } from '@/shared/i18n'
 import { getClientId } from '../lib/client-id'
 
@@ -34,6 +35,7 @@ export function usePostLike(postId: MaybeRefOrGetter<number>, onLiked: (count: n
       const result = await likeApi.likePost(toValue(postId), getClientId())
       liked.value = result.liked
       onLiked(result.likesCount)
+      completeJourneyStep('share')
     } catch (caught) {
       error.value = toErrorMessage(caught, t.value.post.like.error)
     } finally {

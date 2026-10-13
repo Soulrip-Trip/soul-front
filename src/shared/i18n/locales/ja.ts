@@ -379,6 +379,75 @@ const ja: Messages = {
     emptyDescription: '座標が登録されると地図を表示できます。',
   },
 
+  journey: {
+    eyebrow: 'ひとり旅マップ',
+    title: 'ひと目でわかる私のソウルひとり旅',
+    description:
+      'マップのステップをタップして、できることを確認しましょう。\nミッションをクリアするとスタンプがたまり、レベルが上がります。',
+    mapTitle: 'SOLO JOURNEY MAP',
+    rootEyebrow: 'SOULRIP',
+    rootTitle: '私のソウルひとり旅',
+    phases: { discover: '発見', plan: '計画', share: '共有' },
+    steps: {
+      discover: {
+        title: 'ソウルのスポットを見てみる',
+        short: 'スポット探索',
+        description:
+          '観光地・文化施設・ショッピングなど、ひとりで行きやすいスポットを種類や検索で探せます。',
+        mission: 'スポットの詳細ページを1つ開く',
+        cta: 'ソウルを探索する',
+      },
+      save: {
+        title: '行きたい場所を保存する',
+        short: 'ブックマーク',
+        description: '気になるスポットを保存しておけば、すぐにまた確認できます。',
+        mission: 'スポットを1つ保存する',
+        cta: '保存するスポットを探す',
+      },
+      plan: {
+        title: 'お祭りの日程を確認する',
+        short: 'お祭りカレンダー',
+        description: 'カレンダーの日付をタップして、旅行中に開かれるお祭りを確認しましょう。',
+        mission: 'お祭りの詳細を1つ確認する',
+        cta: 'お祭りカレンダーを見る',
+      },
+      ask: {
+        title: 'AIチャットボットに聞く',
+        short: 'AIチャット',
+        description:
+          'ひとりごはんのお店や散歩コースなど、気になることを聞くとソウルのデータで答えてくれます。',
+        mission: 'チャットボットに1回質問する',
+        cta: 'チャットボットを開く',
+      },
+      share: {
+        title: 'ひとり旅の体験をシェアする',
+        short: 'コミュニティ',
+        description: '旅の感想を投稿したり、ほかの旅行者の投稿にいいね・コメントで応援しましょう。',
+        mission: 'いいね・コメント・投稿のどれかをする',
+        cta: 'コミュニティへ',
+      },
+    },
+    mission: 'ミッション',
+    done: 'クリア',
+    todo: '未挑戦',
+    progressLabel: 'ミッション進行度',
+    progress: (done: number, total: number) => `${done} / ${total} クリア`,
+    levels: [
+      'ひとり旅準備中',
+      'ひとり旅ビギナー',
+      'ひとり旅エクスプローラー',
+      'ソウルひとり旅マスター',
+    ],
+    reset: '最初からやり直す',
+    stampsLabel: '集めたスタンプ',
+    nodeLabel: (step: number, title: string, done: boolean) =>
+      `ステップ${step} ${title}、${done ? 'クリア' : '未挑戦'}`,
+    toastTitle: 'ミッションクリア！',
+    toastBody: (title: string, done: number, total: number) => `${title} · ${done}/${total}`,
+    toastMaster: '全ミッションクリア！ソウルひとり旅マスターになりました。',
+    viewMap: 'マップを見る',
+  },
+
   notFound: {
     code: '404',
     title: 'ページが見つかりません',

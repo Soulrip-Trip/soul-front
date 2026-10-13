@@ -6,6 +6,7 @@ import { provideDsMessages } from '@soulrip/design-system'
 import { AppFooter } from '@/widgets/app-footer'
 import { AppHeader } from '@/widgets/app-header'
 import { ChatbotWidget } from '@/widgets/chatbot'
+import { JourneyToast } from '@/widgets/journey-toast'
 import { MobileTabBar } from '@/widgets/mobile-tab-bar'
 import { useI18n } from '@/shared/i18n'
 
@@ -33,5 +34,6 @@ watchEffect(() => {
     <AppFooter />
     <MobileTabBar />
     <ChatbotWidget />
+    <JourneyToast />
   </div>
 </template>

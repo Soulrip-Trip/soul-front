@@ -18,6 +18,8 @@ export const router = createRouter({
   history: createWebHistory(),
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
+    // 미션 알림의 "지도 보기"(/#journey) 등 해시 이동
+    if (to.hash) return { el: to.hash, behavior: 'smooth' }
     // 같은 화면에서 필터·검색·페이지(쿼리)만 바뀌면 스크롤을 유지한다.
     if (to.path === from.path) return false
     return { top: 0 }

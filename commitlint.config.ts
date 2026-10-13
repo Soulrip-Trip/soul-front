@@ -43,6 +43,7 @@ const config: UserConfig = {
         'like',
         'chat',
         'insight',
+        'journey',
         'i18n',
         'app',
         'shared',

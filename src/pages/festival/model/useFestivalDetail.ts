@@ -7,6 +7,7 @@ import {
   festivalName,
   formatFestivalPeriod,
 } from '@/entities/festival'
+import { completeJourneyStep } from '@/entities/journey'
 import { useI18n } from '@/shared/i18n'
 
 export function useFestivalDetail(contentId: MaybeRefOrGetter<string>) {
@@ -24,6 +25,9 @@ export function useFestivalDetail(contentId: MaybeRefOrGetter<string>) {
   )
 
   const festival = state.data
+
+  // 혼행 여정 미션: 축제 상세 1개 확인하기
+  watch(festival, (value) => value && completeJourneyStep('plan'))
 
   const view = computed(() => {
     const value = festival.value

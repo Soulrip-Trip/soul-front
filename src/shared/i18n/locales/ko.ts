@@ -370,6 +370,69 @@ const ko = {
     emptyDescription: '좌표가 등록되면 지도를 확인할 수 있습니다.',
   },
 
+  journey: {
+    eyebrow: '혼행 여정 지도',
+    title: '한눈에 보는 나의 서울 혼행',
+    description:
+      '지도에서 단계를 눌러 무엇을 할 수 있는지 확인하세요.\n미션을 하나씩 완료하면 스탬프가 채워지고 혼행 레벨이 올라가요.',
+    mapTitle: 'SOLO JOURNEY MAP',
+    rootEyebrow: 'SOULRIP',
+    rootTitle: '나의 서울 혼행',
+    phases: { discover: '발견', plan: '계획', share: '공유' },
+    steps: {
+      discover: {
+        title: '서울 장소 둘러보기',
+        short: '장소 탐색',
+        description: '관광지·문화시설·쇼핑 등 혼자 가기 좋은 장소를 유형과 검색어로 찾아봐요.',
+        mission: '장소 상세 페이지 1곳 열어보기',
+        cta: '서울 탐색하기',
+      },
+      save: {
+        title: '가고 싶은 곳 저장하기',
+        short: '북마크',
+        description: '마음에 드는 장소를 북마크해 두면 다음에 바로 다시 찾아볼 수 있어요.',
+        mission: '장소 1곳 북마크하기',
+        cta: '저장할 장소 찾기',
+      },
+      plan: {
+        title: '축제 일정 확인하기',
+        short: '축제 캘린더',
+        description: '달력에서 날짜를 눌러 여행 기간에 열리는 축제를 확인해요.',
+        mission: '축제 상세 정보 1개 확인하기',
+        cta: '축제 캘린더 보기',
+      },
+      ask: {
+        title: 'AI 챗봇에게 물어보기',
+        short: 'AI 챗봇',
+        description:
+          '혼밥 맛집, 산책 코스처럼 궁금한 것을 편하게 물어보면 서울 데이터로 답해 줘요.',
+        mission: '챗봇에게 질문 1번 하기',
+        cta: '챗봇 열기',
+      },
+      share: {
+        title: '혼행 경험 나누기',
+        short: '커뮤니티',
+        description: '다녀온 후기를 남기거나 다른 여행자의 글에 좋아요·댓글로 응원해요.',
+        mission: '좋아요·댓글·글쓰기 중 하나 하기',
+        cta: '커뮤니티 가기',
+      },
+    },
+    mission: '미션',
+    done: '완료',
+    todo: '도전 전',
+    progressLabel: '미션 진행률',
+    progress: (done: number, total: number) => `${done} / ${total} 완료`,
+    levels: ['혼행 준비생', '혼행 입문자', '혼행 탐험가', '서울 혼행 마스터'],
+    reset: '처음부터 다시',
+    stampsLabel: '획득한 스탬프',
+    nodeLabel: (step: number, title: string, done: boolean) =>
+      `${step}단계 ${title}, ${done ? '완료' : '도전 전'}`,
+    toastTitle: '미션 완료!',
+    toastBody: (title: string, done: number, total: number) => `${title} · ${done}/${total}`,
+    toastMaster: '모든 미션 완료! 이제 서울 혼행 마스터예요.',
+    viewMap: '지도 보기',
+  },
+
   notFound: {
     code: '404',
     title: '페이지를 찾을 수 없어요',

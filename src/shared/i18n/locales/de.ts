@@ -376,6 +376,70 @@ const de: Messages = {
     emptyDescription: 'Die Karte erscheint, sobald Koordinaten vorhanden sind.',
   },
 
+  journey: {
+    eyebrow: 'Solo-Reisekarte',
+    title: 'Deine Solo-Reise durch Seoul auf einen Blick',
+    description:
+      'Tippe auf der Karte auf einen Schritt, um zu sehen, was du tun kannst.\nErfülle Missionen, sammle Stempel und steige im Level auf.',
+    mapTitle: 'SOLO JOURNEY MAP',
+    rootEyebrow: 'SOULRIP',
+    rootTitle: 'Meine Solo-Reise durch Seoul',
+    phases: { discover: 'Entdecken', plan: 'Planen', share: 'Teilen' },
+    steps: {
+      discover: {
+        title: 'Orte in Seoul entdecken',
+        short: 'Entdecken',
+        description:
+          'Finde Sehenswürdigkeiten, Kultur und Shops für Alleinreisende nach Typ oder Suchbegriff.',
+        mission: 'Eine Ortsdetailseite öffnen',
+        cta: 'Seoul entdecken',
+      },
+      save: {
+        title: 'Lieblingsorte merken',
+        short: 'Merkliste',
+        description: 'Merke dir Orte, die dir gefallen, um sie später schnell wiederzufinden.',
+        mission: 'Einen Ort merken',
+        cta: 'Ort zum Merken finden',
+      },
+      plan: {
+        title: 'Festivaltermine prüfen',
+        short: 'Festivals',
+        description: 'Tippe auf ein Datum im Kalender, um Festivals während deiner Reise zu sehen.',
+        mission: 'Eine Festivaldetailseite öffnen',
+        cta: 'Festivalkalender öffnen',
+      },
+      ask: {
+        title: 'Den KI-Chatbot fragen',
+        short: 'KI-Chat',
+        description:
+          'Frag zum Beispiel nach Restaurants für Alleinreisende oder Spazierrouten – mit Antworten aus Seoul-Daten.',
+        mission: 'Dem Chatbot eine Frage stellen',
+        cta: 'Chatbot öffnen',
+      },
+      share: {
+        title: 'Erfahrungen teilen',
+        short: 'Community',
+        description: 'Schreibe einen Reisebericht oder feuere andere mit Likes und Kommentaren an.',
+        mission: 'Liken, kommentieren oder posten',
+        cta: 'Zur Community',
+      },
+    },
+    mission: 'Mission',
+    done: 'Erledigt',
+    todo: 'Offen',
+    progressLabel: 'Missionsfortschritt',
+    progress: (done: number, total: number) => `${done} / ${total} erledigt`,
+    levels: ['In Vorbereitung', 'Solo-Einsteiger:in', 'Solo-Entdecker:in', 'Seoul-Solo-Profi'],
+    reset: 'Neu starten',
+    stampsLabel: 'Gesammelte Stempel',
+    nodeLabel: (step: number, title: string, done: boolean) =>
+      `Schritt ${step}: ${title}, ${done ? 'erledigt' : 'offen'}`,
+    toastTitle: 'Mission erfüllt!',
+    toastBody: (title: string, done: number, total: number) => `${title} · ${done}/${total}`,
+    toastMaster: 'Alle Missionen erfüllt! Du bist jetzt Seoul-Solo-Profi.',
+    viewMap: 'Karte ansehen',
+  },
+
   notFound: {
     code: '404',
     title: 'Seite nicht gefunden',

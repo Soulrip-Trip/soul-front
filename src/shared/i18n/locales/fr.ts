@@ -378,6 +378,71 @@ const fr: Messages = {
     emptyDescription: 'La carte s’affichera dès que les coordonnées seront disponibles.',
   },
 
+  journey: {
+    eyebrow: 'Carte du voyage solo',
+    title: 'Votre voyage solo à Séoul en un coup d’œil',
+    description:
+      'Touchez une étape sur la carte pour voir ce que vous pouvez faire.\nRéussissez les missions pour collecter des tampons et monter de niveau.',
+    mapTitle: 'SOLO JOURNEY MAP',
+    rootEyebrow: 'SOULRIP',
+    rootTitle: 'Mon voyage solo à Séoul',
+    phases: { discover: 'Découvrir', plan: 'Planifier', share: 'Partager' },
+    steps: {
+      discover: {
+        title: 'Parcourir les lieux de Séoul',
+        short: 'Explorer',
+        description:
+          'Trouvez par type ou mot-clé des sites, lieux culturels et boutiques adaptés aux voyageurs solo.',
+        mission: 'Ouvrir la fiche d’un lieu',
+        cta: 'Explorer Séoul',
+      },
+      save: {
+        title: 'Enregistrer vos coups de cœur',
+        short: 'Favoris',
+        description: 'Enregistrez les lieux qui vous plaisent pour les retrouver rapidement.',
+        mission: 'Enregistrer un lieu',
+        cta: 'Trouver un lieu à enregistrer',
+      },
+      plan: {
+        title: 'Consulter les dates des festivals',
+        short: 'Festivals',
+        description: 'Touchez une date du calendrier pour voir les festivals pendant votre séjour.',
+        mission: 'Ouvrir la fiche d’un festival',
+        cta: 'Voir le calendrier',
+      },
+      ask: {
+        title: 'Interroger le chatbot IA',
+        short: 'Chat IA',
+        description:
+          'Posez vos questions (repas en solo, balades…) et obtenez des réponses basées sur les données de Séoul.',
+        mission: 'Poser une question au chatbot',
+        cta: 'Ouvrir le chatbot',
+      },
+      share: {
+        title: 'Partager votre expérience',
+        short: 'Communauté',
+        description:
+          'Publiez un récit ou encouragez d’autres voyageurs avec des j’aime et des commentaires.',
+        mission: 'Aimer, commenter ou publier',
+        cta: 'Aller à la communauté',
+      },
+    },
+    mission: 'Mission',
+    done: 'Terminé',
+    todo: 'À faire',
+    progressLabel: 'Progression des missions',
+    progress: (done: number, total: number) => `${done} / ${total} terminées`,
+    levels: ['En préparation', 'Débutant solo', 'Explorateur solo', 'Maître du solo à Séoul'],
+    reset: 'Recommencer',
+    stampsLabel: 'Tampons obtenus',
+    nodeLabel: (step: number, title: string, done: boolean) =>
+      `Étape ${step} : ${title}, ${done ? 'terminée' : 'à faire'}`,
+    toastTitle: 'Mission réussie !',
+    toastBody: (title: string, done: number, total: number) => `${title} · ${done}/${total}`,
+    toastMaster: 'Toutes les missions sont terminées ! Vous êtes maître du solo à Séoul.',
+    viewMap: 'Voir la carte',
+  },
+
   notFound: {
     code: '404',
     title: 'Page introuvable',

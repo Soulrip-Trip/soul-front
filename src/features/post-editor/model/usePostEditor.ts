@@ -1,6 +1,7 @@
 import { computed, reactive, ref } from 'vue'
 import { postApi, type CommunityPost, type WritablePostType } from '@soulrip/api'
 import { splitTags, toErrorMessage } from '@soulrip/library'
+import { completeJourneyStep } from '@/entities/journey'
 import { isWritablePostType } from '@/entities/post'
 import { useI18n } from '@/shared/i18n'
 
@@ -116,7 +117,12 @@ export function usePostEditor(postId: number | null, prefill: PostEditorPrefill 
     }
 
     try {
-      return isEdit ? await postApi.updatePost(postId, payload) : await postApi.createPost(payload)
+      if (isEdit) return await postApi.updatePost(postId, payload)
+
+      const created = await postApi.createPost(payload)
+      // 혼행 여정 미션: 경험 나누기
+      completeJourneyStep('share')
+      return created
     } catch (caught) {
       submitError.value = toErrorMessage(caught, t.value.post.editor.saveError)
       return null

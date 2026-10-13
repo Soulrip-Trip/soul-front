@@ -378,6 +378,69 @@ const en: Messages = {
     emptyDescription: 'The map will appear once coordinates are available.',
   },
 
+  journey: {
+    eyebrow: 'Solo journey map',
+    title: 'Your solo Seoul trip at a glance',
+    description:
+      'Tap a step on the map to see what you can do.\nComplete missions to collect stamps and level up.',
+    mapTitle: 'SOLO JOURNEY MAP',
+    rootEyebrow: 'SOULRIP',
+    rootTitle: 'My solo Seoul trip',
+    phases: { discover: 'Discover', plan: 'Plan', share: 'Share' },
+    steps: {
+      discover: {
+        title: 'Browse places in Seoul',
+        short: 'Explore',
+        description: 'Find solo-friendly attractions, culture spots and shops by type or keyword.',
+        mission: 'Open one place detail page',
+        cta: 'Explore Seoul',
+      },
+      save: {
+        title: 'Save places you like',
+        short: 'Bookmark',
+        description: 'Bookmark places you like so you can find them again quickly.',
+        mission: 'Bookmark one place',
+        cta: 'Find a place to save',
+      },
+      plan: {
+        title: 'Check festival dates',
+        short: 'Festivals',
+        description: 'Tap a date on the calendar to see festivals during your trip.',
+        mission: 'Open one festival detail page',
+        cta: 'Open festival calendar',
+      },
+      ask: {
+        title: 'Ask the AI chatbot',
+        short: 'AI chat',
+        description:
+          'Ask anything, like solo dining spots or walking routes, and get answers from Seoul data.',
+        mission: 'Ask the chatbot one question',
+        cta: 'Open chatbot',
+      },
+      share: {
+        title: 'Share your solo trip',
+        short: 'Community',
+        description: 'Post a review, or cheer on other travelers with likes and comments.',
+        mission: 'Like, comment or write a post',
+        cta: 'Go to community',
+      },
+    },
+    mission: 'Mission',
+    done: 'Done',
+    todo: 'Not yet',
+    progressLabel: 'Mission progress',
+    progress: (done: number, total: number) => `${done} / ${total} done`,
+    levels: ['Getting ready', 'Solo beginner', 'Solo explorer', 'Seoul solo master'],
+    reset: 'Start over',
+    stampsLabel: 'Stamps collected',
+    nodeLabel: (step: number, title: string, done: boolean) =>
+      `Step ${step}: ${title}, ${done ? 'done' : 'not yet'}`,
+    toastTitle: 'Mission complete!',
+    toastBody: (title: string, done: number, total: number) => `${title} · ${done}/${total}`,
+    toastMaster: 'All missions complete! You are now a Seoul solo master.',
+    viewMap: 'View map',
+  },
+
   notFound: {
     code: '404',
     title: 'Page not found',

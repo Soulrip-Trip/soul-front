@@ -376,6 +376,70 @@ const es: Messages = {
     emptyDescription: 'El mapa aparecerá cuando haya coordenadas.',
   },
 
+  journey: {
+    eyebrow: 'Mapa del viaje en solitario',
+    title: 'Tu viaje en solitario por Seúl de un vistazo',
+    description:
+      'Toca un paso del mapa para ver qué puedes hacer.\nCompleta misiones para reunir sellos y subir de nivel.',
+    mapTitle: 'SOLO JOURNEY MAP',
+    rootEyebrow: 'SOULRIP',
+    rootTitle: 'Mi viaje en solitario por Seúl',
+    phases: { discover: 'Descubrir', plan: 'Planear', share: 'Compartir' },
+    steps: {
+      discover: {
+        title: 'Explorar lugares de Seúl',
+        short: 'Explorar',
+        description:
+          'Encuentra por tipo o palabra clave atracciones, cultura y tiendas ideales para ir solo.',
+        mission: 'Abrir la ficha de un lugar',
+        cta: 'Explorar Seúl',
+      },
+      save: {
+        title: 'Guardar tus lugares favoritos',
+        short: 'Guardados',
+        description: 'Guarda los lugares que te gustan para encontrarlos rápido después.',
+        mission: 'Guardar un lugar',
+        cta: 'Buscar un lugar para guardar',
+      },
+      plan: {
+        title: 'Consultar fechas de festivales',
+        short: 'Festivales',
+        description: 'Toca una fecha del calendario para ver los festivales durante tu viaje.',
+        mission: 'Abrir la ficha de un festival',
+        cta: 'Ver calendario',
+      },
+      ask: {
+        title: 'Preguntar al chatbot de IA',
+        short: 'Chat IA',
+        description:
+          'Pregunta lo que quieras, como dónde comer solo o rutas a pie, y te responde con datos de Seúl.',
+        mission: 'Hacer una pregunta al chatbot',
+        cta: 'Abrir chatbot',
+      },
+      share: {
+        title: 'Compartir tu experiencia',
+        short: 'Comunidad',
+        description: 'Publica una reseña o anima a otros viajeros con me gusta y comentarios.',
+        mission: 'Dar me gusta, comentar o publicar',
+        cta: 'Ir a la comunidad',
+      },
+    },
+    mission: 'Misión',
+    done: 'Hecho',
+    todo: 'Pendiente',
+    progressLabel: 'Progreso de misiones',
+    progress: (done: number, total: number) => `${done} / ${total} completadas`,
+    levels: ['Preparándote', 'Principiante solo', 'Explorador solo', 'Maestro solo de Seúl'],
+    reset: 'Empezar de nuevo',
+    stampsLabel: 'Sellos conseguidos',
+    nodeLabel: (step: number, title: string, done: boolean) =>
+      `Paso ${step}: ${title}, ${done ? 'hecho' : 'pendiente'}`,
+    toastTitle: '¡Misión completada!',
+    toastBody: (title: string, done: number, total: number) => `${title} · ${done}/${total}`,
+    toastMaster: '¡Todas las misiones completadas! Ya eres maestro solo de Seúl.',
+    viewMap: 'Ver mapa',
+  },
+
   notFound: {
     code: '404',
     title: 'Página no encontrada',

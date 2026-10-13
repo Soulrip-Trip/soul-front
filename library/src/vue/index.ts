@@ -3,3 +3,4 @@ export { useAsyncState, type AsyncState, type AsyncStateOptions } from './useAsy
 export { useEventListener } from './useEventListener'
 export { useScrollLock } from './useScrollLock'
 export { watchDebounced } from './watchDebounced'
+export { useScrollSpy, type ScrollSpyOptions } from './useScrollSpy'

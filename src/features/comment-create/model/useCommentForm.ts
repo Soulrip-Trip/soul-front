@@ -1,6 +1,7 @@
 import { computed, reactive, ref, toValue, type MaybeRefOrGetter } from 'vue'
 import { commentApi, type Comment } from '@soulrip/api'
 import { toErrorMessage } from '@soulrip/library'
+import { completeJourneyStep } from '@/entities/journey'
 import { useI18n } from '@/shared/i18n'
 
 export const COMMENT_RULES = {
@@ -49,6 +50,7 @@ export function useCommentForm(
         content: form.content.trim(),
       })
       onCreated(created)
+      completeJourneyStep('share')
       // 연속 작성 편의를 위해 닉네임·비밀번호는 유지하고 내용만 비운다.
       form.content = ''
     } catch (caught) {

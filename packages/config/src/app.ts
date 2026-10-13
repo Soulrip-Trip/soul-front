@@ -9,6 +9,8 @@ export const STORAGE_KEYS = {
   lang: 'soulrip-lang',
   clientId: 'client_id',
   placeBookmarkPrefix: 'soulrip-place-',
+  /** 혼행 여정(게이미피케이션) 미션 진행 상황 */
+  journey: 'soulrip-journey',
 } as const
 
 /** 화면별 한 번에 불러오는 목록 크기 */

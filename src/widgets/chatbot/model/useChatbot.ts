@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue'
 import { chatApi, type ChatHistoryItem, type ChatSource } from '@soulrip/api'
 import { CHAT_HISTORY_LIMIT } from '@soulrip/config'
+import { completeJourneyStep } from '@/entities/journey'
 import { useI18n } from '@/shared/i18n'
 
 export interface ChatMessage {
@@ -68,6 +69,7 @@ export function useChatbot() {
         sources: result.sources ?? [],
       })
       suggestions.value = result.suggestions ?? []
+      completeJourneyStep('ask')
     } catch {
       messages.value.push({ id: nextId++, role: 'assistant', content: '', kind: 'error' })
     } finally {

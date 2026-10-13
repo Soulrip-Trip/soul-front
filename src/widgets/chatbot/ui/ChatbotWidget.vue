@@ -8,13 +8,15 @@ import { useEventListener, useScrollLock } from '@soulrip/library/vue'
 import chatCat from '@/shared/assets/images/chat-cat.jpg'
 import { paths } from '@/shared/config'
 import { useI18n } from '@/shared/i18n'
+import { useChatbotLauncher } from '@/shared/model'
 import { useChatbot } from '../model/useChatbot'
 
 const { t } = useI18n()
 const { isMobile } = useBreakpoint()
 const { messages, input, loading, quickQuestions, textOf, send, reset } = useChatbot()
 
-const open = ref(false)
+// 열림 상태는 앱 전역 공유 (여정 지도의 "챗봇 열기" 버튼에서도 연다)
+const { isOpen: open, closeChatbot, toggleChatbot } = useChatbotLauncher()
 const scroller = ref<HTMLElement | null>(null)
 const inputEl = ref<HTMLInputElement | null>(null)
 
@@ -25,7 +27,7 @@ useEventListener(
   () => (open.value ? window : null),
   'keydown',
   (event) => {
-    if (event.key === 'Escape') open.value = false
+    if (event.key === 'Escape') closeChatbot()
   },
 )
 
@@ -85,7 +87,7 @@ function sourceLink(source: ChatSource): string | null {
           >
             <RotateCcw :size="17" />
           </SIconButton>
-          <SIconButton :label="t.chat.close" variant="inverse" size="sm" @click="open = false">
+          <SIconButton :label="t.chat.close" variant="inverse" size="sm" @click="closeChatbot">
             <X :size="20" />
           </SIconButton>
         </header>
@@ -111,7 +113,7 @@ function sourceLink(source: ChatSource): string | null {
                   :is="sourceLink(source) ? RouterLink : 'div'"
                   :to="sourceLink(source) ?? undefined"
                   class="chatbot__source"
-                  @click="sourceLink(source) && isMobile && (open = false)"
+                  @click="sourceLink(source) && isMobile && closeChatbot()"
                 >
                   <img v-if="source.image_url" :src="source.image_url" alt="" loading="lazy" />
                   <span>
@@ -171,7 +173,7 @@ function sourceLink(source: ChatSource): string | null {
       :aria-label="open ? t.chat.close : t.chat.open"
       :aria-expanded="open"
       aria-controls="chatbot-panel"
-      @click="open = !open"
+      @click="toggleChatbot"
     >
       <img :src="chatCat" alt="" />
     </button>
@@ -219,8 +221,8 @@ function sourceLink(source: ChatSource): string | null {
 
 /* 원형 테두리에 귀가 잘리지 않도록 이미지를 원 안쪽으로 줄인다. */
 .chatbot__fab img {
-  width: 78%;
-  height: 78%;
+  width: 90%;
+  height: 90%;
   object-fit: contain;
 }
 

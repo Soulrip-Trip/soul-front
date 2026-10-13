@@ -5,6 +5,7 @@ import type { PaginationMeta } from '@soulrip/api'
 import { FestivalCard } from '@/entities/festival'
 import { PlaceCard } from '@/entities/place'
 import { PostCard } from '@/entities/post'
+import { JourneyMap } from '@/widgets/journey-map'
 import { paths } from '@/shared/config'
 import { useI18n } from '@/shared/i18n'
 import { useHomeFeed } from '../model/useHomeFeed'
@@ -51,6 +52,9 @@ const totals = computed(() => {
         </div>
       </div>
     </section>
+
+    <!-- 혼행 여정 지도 (게이미피케이션) -->
+    <JourneyMap />
 
     <FeedSection
       :eyebrow="t.home.sections.places.eyebrow"

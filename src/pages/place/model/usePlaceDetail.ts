@@ -2,6 +2,7 @@ import { computed, toValue, watch, type MaybeRefOrGetter } from 'vue'
 import { placeApi, type Place } from '@soulrip/api'
 import { useAsyncState } from '@soulrip/library/vue'
 import { placeCategoryLabel, placeCoordinates, placeDetailImage, placeName } from '@/entities/place'
+import { completeJourneyStep } from '@/entities/journey'
 import { useI18n } from '@/shared/i18n'
 
 /** 장소 상세. id는 목록 카드에서 넘어온 contentId다. */
@@ -23,6 +24,9 @@ export function usePlaceDetail(id: MaybeRefOrGetter<string>) {
   )
 
   const place = state.data
+
+  // 혼행 여정 미션: 장소 상세 1곳 열어보기
+  watch(place, (value) => value && completeJourneyStep('discover'))
 
   const view = computed(() => {
     const value = place.value
