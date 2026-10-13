@@ -217,10 +217,10 @@ function sourceLink(source: ChatSource): string | null {
   }
 }
 
+/* 원형 테두리에 귀가 잘리지 않도록 이미지를 원 안쪽으로 줄인다. */
 .chatbot__fab img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+  width: 78%;
+  height: 78%;
   object-fit: contain;
 }
 
@@ -269,6 +269,7 @@ function sourceLink(source: ChatSource): string | null {
   width: 2.5rem;
   height: 2.5rem;
   flex-shrink: 0;
+  padding: 0.3rem;
   border-radius: 50%;
   background: #fff;
   object-fit: contain;
