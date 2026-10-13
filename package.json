@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "library",
+    "packages/*"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
@@ -12,14 +16,35 @@
     "lint": "run-s \"lint:*\"",
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
-    "format": "prettier --write --experimental-cli src/"
+    "format": "prettier --write .",
+    "check:format": "prettier --check .",
+    "check:lint": "oxlint . && eslint . --cache",
+    "check": "run-s check:format check:lint type-check",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,mts,vue}": [
+      "oxlint --fix",
+      "eslint --fix --cache",
+      "prettier --write"
+    ],
+    "*.{js,mjs,css,json,html,yml,yaml}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
+    "@soulrip/api": "*",
+    "@soulrip/config": "*",
+    "@soulrip/design-system": "*",
+    "@soulrip/font-suit": "*",
+    "@soulrip/library": "*",
     "lucide-vue-next": "^1.0.0",
     "vue": "^3.5.38",
     "vue-router": "^5.1.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.13.2",
     "@vitejs/plugin-vue": "^6.0.7",
@@ -29,7 +54,9 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-oxlint": "~1.69.0",
     "eslint-plugin-vue": "~10.9.2",
+    "husky": "^9.1.7",
     "jiti": "^2.7.0",
+    "lint-staged": "^17.6.0",
     "npm-run-all2": "^9.0.2",
     "oxlint": "~1.69.0",
     "prettier": "3.8.4",
