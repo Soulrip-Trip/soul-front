@@ -385,7 +385,7 @@ const de: Messages = {
     districtLabel: (name: string, explored: boolean) => (explored ? `${name}, besucht` : name),
     chooserLabel: 'Bezirk wählen',
     all: 'Alle',
-    explored: (count: number, total: number) => `Besuchte Bezirke ${count} / ${total}`,
+    mapHint: 'Tippe auf einen Bezirk, um hier eine Vorstellung des Viertels zu sehen.',
     steps: {
       discover: {
         title: 'Orte in Seoul entdecken',
@@ -433,6 +433,59 @@ const de: Messages = {
     toastBody: (title: string, done: number, total: number) => `${title} · ${done}/${total}`,
     toastMaster: 'Alle Missionen erfüllt! Du bist jetzt Seoul-Solo-Profi.',
     viewMap: 'Karte ansehen',
+  },
+
+  district: {
+    /** 자치구 소개 (홈 여정 지도에서 구를 선택하면 표시) */
+    descriptions: {
+      jongno:
+        'Seit der Joseon-Dynastie politisches und kulturelles Zentrum Seouls; der Name geht auf den Glockenturm zurück, der die Stunden verkündete. In Gyeongbokgung, Changdeokgung, im Hanok-Dorf Bukchon und in Insa-dong erlebst du Koreas Geschichte und Tradition hautnah.',
+      jung: 'Mitten im Stadtzentrum ist Jung-gu ein Zentrum für Shopping, Sightseeing und Handel. Genieße die Einkaufsstraßen und das Essen in Myeong-dong, die Geschichte des Deoksugung und die alten Gassen und besonderen Cafés von Euljiro.',
+      yongsan:
+        'Im Herzen Seouls ist Yongsan ein internationales Viertel, in dem sich viele Nationalitäten und Kulturen begegnen. Probiere Gerichte aus aller Welt in Itaewon und erlebe Koreas Geschichte und Seouls Panorama im Nationalmuseum von Korea und im N Seoul Tower.',
+      seongdong:
+        'Ehemalige Fabriken und Werkstätten wurden hier zu modernen Kultur- und Geschäftsräumen. Besonders beliebt sind die stilvollen Cafés und Concept Stores in Seongsu-dong sowie die grünen Wege des Seoul Forest.',
+      gwangjin:
+        'Nördlich des Han-Flusses treffen lebendige Studentenkultur und Familienausflugsziele aufeinander. Bekannt sind die belebten Straßen rund um die Konkuk-Universität, der Seoul Children’s Grand Park und der Ttukseom-Hangang-Park.',
+      dongdaemun:
+        'Ein Knotenpunkt traditioneller Märkte und des Verkehrs im Nordosten Seouls, wo du den Alltag des alten Seoul erlebst. Auf dem Gyeongdong-Markt, dem Kräutermarkt Yangnyeongsi und im Zentrum für koreanische Medizin entdeckst du Märkte und traditionelle Heilkunde.',
+      jungnang:
+        'Im Nordosten Seouls ist Jungnang rund um den Bach Jungnangcheon und den Berg Yongmasan reich an Natur. Die Blumenwege im Rosenpark, die Aussichtsplattform am Yongmasan und der Mangu-Geschichts- und Kulturpark verbinden Natur und Geschichte.',
+      seongbuk:
+        'Ein historisches und kulturelles Zentrum mit Resten der alten Stadtmauer und traditionellen Wohnvierteln. In den Hanoks und Gassen von Seongbuk-dong, im Tempel Gilsangsa und in Jeongneung spürst du das ruhige alte Seoul.',
+      gangbuk:
+        'Am südöstlichen Hang des Bukhansan ist Gangbuk reich an Bergen und Wäldern. Die Wanderwege am Bukhansan und der Nationalfriedhof des 19. April verbinden Seouls Natur mit der Geschichte der Demokratisierung.',
+      dobong:
+        'Der nördlichste Bezirk Seouls ist berühmt für den Dobongsan, einen imposanten Felsberg. Ideal zum Wandern – Erholung und Kultur bieten der Garten Changpowon und das Fotografiemuseum Seoul.',
+      nowon:
+        'Ein Wohnbezirk im Nordosten Seouls mit viel Natur, etwa den Bergen Buramsan und Suraksan. Im Hwarangdae-Eisenbahnpark und auf dem Gyeongchun-Waldweg spazierst du entlang alter Bahngleise.',
+      eunpyeong:
+        'Am Fuß des Bukhansan im Nordwesten Seouls erlebst du Natur und traditionelle Kultur nahe der Innenstadt. Im Hanok-Dorf Eunpyeong und im Tempel Jingwansa gibt es traditionelle Architektur und Tempelkultur, am Bukhansan herrliche Berglandschaften.',
+      seodaemun:
+        'In Seodaemun treffen Spuren der jüngeren Geschichte auf studentisches Flair. Im Geschichtsmuseum des Gefängnisses Seodaemun erfährst du von der Unabhängigkeitsbewegung, in Sinchon und Yeonhui-dong erwarten dich Essen und Cafés.',
+      mapo: 'Nordwestlich des Han-Flusses ist Mapo Seouls Viertel für Jugendkultur und Kunst. Genieße Musik und Straßenkunst in Hongdae, Cafés und Markt in Mangwon-dong und Sonnenuntergänge im Haneul-Park in Sangam-dong.',
+      yangcheon:
+        'Ein geplantes Wohngebiet im Südwesten Seouls mit gepflegten Parks und Spazierwegen. Entspanne zwischen dem modernen Stadtbild von Mok-dong, den Wegen am Anyangcheon und dem Aussichtspunkt am Yongwangsan.',
+      gangseo:
+        'Im Westen Seouls nahe dem Flughafen Gimpo ist Gangseo für Reisende aus dem In- und Ausland gut erreichbar. Der Botanische Park Seoul und das Nationale Luftfahrtmuseum bieten Natur und Luftfahrtkultur.',
+      guro: 'Einst eines der wichtigsten Industriegebiete Seouls, verbindet Guro heute Digitalwirtschaft und Wohnviertel. Erlebe Baseball oder Konzerte im Gocheok Sky Dome oder entspanne im Pureun-Arboretum.',
+      geumcheon:
+        'Im Südwesten Seouls wandelt sich Geumcheon vom Industriegebiet zu einem modernen Geschäfts- und Kulturviertel. Hier warten die Einkaufszentren des Gasan Digital Complex und die Natur des Hoamsan.',
+      yeongdeungpo:
+        'Südlich des Han ist Yeongdeungpo eines der wichtigsten Finanz-, Geschäfts- und Handelszentren Seouls. Die Hochhäuser und der Flusspark von Yeouido bilden einen spannenden Kontrast zu den alten Metallwerkstätten und Kunsträumen in Mullae-dong.',
+      dongjak:
+        'Südlich des Han-Flusses verbindet Dongjak historische Orte mit lebendigem Alltag. Auf dem Nationalfriedhof Seoul lernst du die jüngere Geschichte Koreas kennen, auf dem Fischmarkt Noryangjin frische Meeresfrüchte.',
+      gwanak:
+        'Rund um den Gwanaksan im Süden Seouls gelegen und Sitz der Seoul National University. Genieße Wanderungen am Gwanaksan, das Essen in Sillim-dong und die originellen Cafés und Restaurants der Sharosu-gil.',
+      seocho:
+        'Ein modernes Wohn- und Geschäftsviertel südlich des Han und eines der wichtigsten Kulturzentren Seouls. Besuche Aufführungen und Ausstellungen im Seoul Arts Center und genieße das nächtliche Panorama im Banpo-Hangang-Park.',
+      gangnam:
+        'Südlich des Han-Flusses ist Gangnam das wichtigste Geschäfts- und Kulturzentrum Seouls. Hochhäuser, edle Einkaufsstraßen und K-Pop-Kultur prägen das Viertel – in COEX, Apgujeong und Cheongdam-dong erlebst du das moderne Seoul.',
+      songpa:
+        'Südöstlich des Han ist Songpa ein großes Zentrum für Tourismus, Shopping und Freizeit. Neben modernen Attraktionen wie Lotte World Tower, Lotte World und dem Seokchon-See findest du Stätten aus der Hanseong-Baekje-Zeit.',
+      gangdong:
+        'Am östlichen Rand Seouls verbindet Gangdong den Han-Fluss mit viel Grün. Die prähistorische Siedlung Amsa-dong zeigt die Frühgeschichte, in den Han-Parks kannst du Rad fahren und spazieren.',
+    },
   },
 
   notFound: {

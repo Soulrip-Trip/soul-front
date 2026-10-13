@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { Check, Map as MapIcon, RotateCcw, Trophy } from 'lucide-vue-next'
+import { Check, RotateCcw, Trophy } from 'lucide-vue-next'
 import { SButton } from '@soulrip/design-system'
 import { useDistrictExploration } from '@/entities/district'
 import { JOURNEY_STEPS, useJourney } from '@/entities/journey'
@@ -24,7 +24,7 @@ function resetAll() {
 
 <template>
   <!--
-    진행 현황: 레벨 · 미션 진행 막대 · 탐험한 구 수 · 초기화 / 미션 칩 5개
+    진행 현황: 레벨 · 미션 진행 막대 · 초기화 / 미션 칩 5개
     ~767px : 미션 칩이 가로 스크롤 한 줄
     768px~ : 칩이 여러 줄로 감싸진다.
   -->
@@ -50,11 +50,6 @@ function resetAll() {
           <span :style="{ width: `${percent}%` }" />
         </span>
       </div>
-
-      <span class="progress__explored">
-        <MapIcon :size="16" aria-hidden="true" />
-        {{ t.journey.explored(exploration.count.value, exploration.total) }}
-      </span>
 
       <SButton v-if="hasProgress" variant="ghost" size="sm" @click="resetAll">
         <RotateCcw :size="14" aria-hidden="true" />
@@ -140,19 +135,11 @@ function resetAll() {
   gap: var(--space-3);
 }
 
-.progress__text,
-.progress__explored {
+.progress__text {
   flex-shrink: 0;
   font-size: var(--fs-sm);
   font-weight: var(--fw-bold);
   font-variant-numeric: tabular-nums;
-}
-
-.progress__explored {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1-5);
-  color: var(--color-primary);
 }
 
 .progress__bar {

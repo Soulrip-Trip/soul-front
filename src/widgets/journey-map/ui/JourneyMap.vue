@@ -4,9 +4,9 @@ import { Map as MapIcon, X } from 'lucide-vue-next'
 import { SChipGroup, SIconButton, SSectionHeader, type ChipOption } from '@soulrip/design-system'
 import {
   DISTRICTS,
+  DISTRICT_TOTAL,
   SeoulMap,
   districtName,
-  useDistrictExploration,
   type DistrictId,
 } from '@/entities/district'
 import { useI18n } from '@/shared/i18n'
@@ -15,11 +15,8 @@ import DistrictRecommendList from './DistrictRecommendList.vue'
 import JourneyProgress from './JourneyProgress.vue'
 
 const { t, lang } = useI18n()
-const { count, total } = useDistrictExploration()
 const { selected, district, recommendation, loading, toggle, select, reshuffle } =
   useDistrictRecommendations()
-
-const exploredPercent = computed(() => `${(count.value / total) * 100}%`)
 
 /** 1024px 미만 구 선택 칩 (지도의 작은 구도 쉽게 고르도록) */
 const chipOptions = computed<ChipOption<DistrictId | null>[]>(() => [
@@ -50,7 +47,7 @@ const chipOptions = computed<ChipOption<DistrictId | null>[]>(() => [
         <div class="journey__map-col">
           <figure class="map-card">
             <header class="map-card__bar">
-              <span>SEOUL · {{ total }} DISTRICTS</span>
+              <span>SEOUL · {{ DISTRICT_TOTAL }} DISTRICTS</span>
               <span class="map-card__selected">
                 {{ district ? districtName(district, lang) : 'ALL' }}
                 <SIconButton
@@ -74,15 +71,13 @@ const chipOptions = computed<ChipOption<DistrictId | null>[]>(() => [
               />
             </div>
 
-            <footer class="map-card__footer">
-              <span class="map-card__count">
-                <strong>{{ String(count).padStart(2, '0') }}</strong>
-                / {{ total }}
-              </span>
-              <span class="map-card__caption">{{ t.journey.explored(count, total) }}</span>
-              <span class="map-card__track" aria-hidden="true">
-                <span :style="{ width: exploredPercent }" />
-              </span>
+            <!-- 선택한 구 소개: 제목(구 이름) + 설명. 선택 전에는 안내 문구 -->
+            <footer class="map-card__intro" aria-live="polite">
+              <template v-if="district">
+                <h3 class="map-card__title">{{ districtName(district, lang) }}</h3>
+                <p class="map-card__description">{{ t.district.descriptions[district.id] }}</p>
+              </template>
+              <p v-else class="map-card__hint">{{ t.journey.mapHint }}</p>
             </footer>
           </figure>
 
@@ -191,47 +186,36 @@ const chipOptions = computed<ChipOption<DistrictId | null>[]>(() => [
   }
 }
 
-.map-card__footer {
-  position: relative;
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-3);
+.map-card__intro {
+  display: grid;
+  gap: var(--space-2);
   padding: var(--space-4) var(--space-4) var(--space-5);
   border-top: 1px solid var(--color-border);
   background: color-mix(in srgb, var(--color-surface) 85%, transparent);
 }
 
-.map-card__count {
-  color: var(--color-text-subtle);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-bold);
-  font-variant-numeric: tabular-nums;
+@media (min-width: 768px) {
+  .map-card__intro {
+    padding: var(--space-5) var(--space-6) var(--space-6);
+  }
 }
 
-.map-card__count strong {
+.map-card__title {
   color: var(--color-primary);
-  font-size: var(--fs-h2);
+  font-size: var(--fs-h3);
 }
 
-.map-card__caption {
+.map-card__description {
   color: var(--color-text-muted);
   font-size: var(--fs-sm);
-  font-weight: var(--fw-bold);
+  line-height: var(--lh-body);
+  word-break: var(--word-break);
+  animation: ds-fade-up var(--duration-base) var(--ease-out);
 }
 
-.map-card__track {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 3px;
-  background: var(--color-border);
-}
-
-.map-card__track span {
-  display: block;
-  height: 100%;
-  background: var(--color-primary);
-  transition: width var(--duration-slow) var(--ease-out);
+.map-card__hint {
+  color: var(--color-text-subtle);
+  font-size: var(--fs-sm);
+  word-break: var(--word-break);
 }
 </style>
