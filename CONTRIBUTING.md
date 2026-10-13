@@ -51,7 +51,7 @@ main ─────●──────────●────────
 ```
 
 - `type`: `feat` `fix` `refactor` `style` `design` `docs` `test` `perf` `build` `ci` `chore` `revert`
-- `scope`(권장): `home` `place` `festival` `post` `comment` `like` `chat` `insight` `i18n` `app` `shared` `design-system` `api` `config` `library` `font` `deps` `lint` `docs`
+- `scope`(권장): `home` `place` `festival` `post` `comment` `like` `chat` `insight` `journey` `i18n` `app` `shared` `design-system` `api` `config` `library` `font` `deps` `lint` `docs`
 - `subject`: 100자 이내, 마침표 없이, 명령형("추가", "수정"). 한글 사용 가능
 
 ```text
