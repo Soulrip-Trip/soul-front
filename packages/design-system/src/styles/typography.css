@@ -1,0 +1,220 @@
+/*
+ * Responsive Typography
+ * ---------------------------------------------------------------------------
+ * 두 단계로 글자 크기를 조절한다.
+ *
+ * 1) 루트 글자 크기(html font-size) — 화면 전체 밀도를 조절한다.
+ *    rem 기반 여백·컴포넌트 크기도 함께 커지고 작아진다.
+ *    사용자 브라우저 글꼴 설정을 존중하도록 % 단위로 지정한다.
+ *
+ *    폭            root        1rem    대상 기기
+ *    ~359px       87.5%      14px    갤럭시 폴드(접힘 280), iPhone SE 1세대(320)
+ *    360~389px    93.75%     15px    일반 안드로이드(360), iPhone mini/SE(375)
+ *    390~1439px   100%       16px    iPhone 12~16(390/393), Pro Max(430), 태블릿, 노트북
+ *    1440~1919px  106.25%    17px    와이드 모니터
+ *    1920px~      112.5%     18px    FHD 이상 대형 모니터
+ *
+ * 2) 타입 스케일 토큰(--fs-*) — 제목 계층을 단계별로 조절한다.
+ *    본문은 1rem으로 고정하고 제목만 단계적으로 키운다. (모바일에서 제목이 화면을 덮지 않도록)
+ *
+ *    토큰          ~359   360~479  480~767  768~1023  1024~
+ *    --fs-display  2.25   2.5      3        3.5       4.5    (rem)
+ *    --fs-h1       1.625  1.75     2        2.375     2.75
+ *    --fs-h2       1.3125 1.375    1.5      1.75      2
+ *    --fs-h3       1.125  1.125    1.1875   1.25      1.3125
+ *    --fs-lead     1      1.0625   1.0625   1.125     1.125
+ *    --fs-body     1      1        1        1         1
+ *    --fs-sm       0.875 (최소 12px)
+ *    --fs-xs       0.75  (최소 11px)
+ *    --fs-input    1rem  (최소 16px — iOS 사파리 입력창 자동 확대 방지)
+ */
+
+:root {
+  --font-sans:
+    'SUIT Variable', 'SUIT', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+    'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'PingFang SC', 'Noto Sans KR', 'Noto Sans JP',
+    'Noto Sans SC', 'Malgun Gothic', 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  --lh-tight: 1.15;
+  --lh-heading: 1.3;
+  --lh-snug: 1.45;
+  --lh-body: 1.65;
+  --lh-relaxed: 1.8;
+
+  /*
+   * 줄바꿈: 한국어는 어절(띄어쓰기) 단위로 끊어야 자연스럽고(keep-all),
+   * 일본어·중국어는 띄어쓰기가 없어 keep-all이면 줄바꿈이 불가능해 넘친다.
+   * 그래서 <html lang="ko">일 때만 keep-all을 적용한다.
+   */
+  --word-break: normal;
+
+  --ls-display: -0.04em;
+  --ls-heading: -0.025em;
+  --ls-body: -0.01em;
+  --ls-eyebrow: 0.12em;
+
+  /* ~359px (모바일 퍼스트 기본값) */
+  --fs-display: 2.25rem;
+  --fs-h1: 1.625rem;
+  --fs-h2: 1.3125rem;
+  --fs-h3: 1.125rem;
+  --fs-lead: 1rem;
+  --fs-body: 1rem;
+  --fs-sm: max(0.875rem, 12px);
+  --fs-xs: max(0.75rem, 11px);
+  --fs-input: max(1rem, 16px);
+}
+
+:root:lang(ko) {
+  --word-break: keep-all;
+}
+
+html {
+  font-size: 87.5%;
+}
+
+/* 360px~ : 일반 스마트폰 */
+@media (min-width: 360px) {
+  html {
+    font-size: 93.75%;
+  }
+
+  :root {
+    --fs-display: 2.5rem;
+    --fs-h1: 1.75rem;
+    --fs-h2: 1.375rem;
+    --fs-lead: 1.0625rem;
+  }
+}
+
+/* 390px~ : 최신 표준 스마트폰 */
+@media (min-width: 390px) {
+  html {
+    font-size: 100%;
+  }
+}
+
+/* 480px~ : 대화면 폰 / 가로 모드 */
+@media (min-width: 480px) {
+  :root {
+    --fs-display: 3rem;
+    --fs-h1: 2rem;
+    --fs-h2: 1.5rem;
+    --fs-h3: 1.1875rem;
+  }
+}
+
+/* 768px~ : 태블릿 */
+@media (min-width: 768px) {
+  :root {
+    --fs-display: 3.5rem;
+    --fs-h1: 2.375rem;
+    --fs-h2: 1.75rem;
+    --fs-h3: 1.25rem;
+    --fs-lead: 1.125rem;
+  }
+}
+
+/* 1024px~ : 데스크톱 */
+@media (min-width: 1024px) {
+  :root {
+    --fs-display: 4.5rem;
+    --fs-h1: 2.75rem;
+    --fs-h2: 2rem;
+    --fs-h3: 1.3125rem;
+  }
+}
+
+/* 1440px~ : 와이드 */
+@media (min-width: 1440px) {
+  html {
+    font-size: 106.25%;
+  }
+}
+
+/* 1920px~ : 대형 모니터 */
+@media (min-width: 1920px) {
+  html {
+    font-size: 112.5%;
+  }
+}
+
+/* ---- Typography classes ---- */
+.ds-display,
+.ds-h1,
+.ds-h2,
+.ds-h3 {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: var(--fw-extrabold);
+  word-break: var(--word-break);
+  overflow-wrap: break-word;
+}
+
+.ds-display {
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
+}
+
+.ds-h1 {
+  font-size: var(--fs-h1);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-heading);
+}
+
+.ds-h2 {
+  font-size: var(--fs-h2);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-heading);
+}
+
+.ds-h3 {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-heading);
+}
+
+.ds-lead {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-relaxed);
+}
+
+.ds-body {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.ds-sm {
+  font-size: var(--fs-sm);
+}
+
+.ds-xs {
+  font-size: var(--fs-xs);
+}
+
+.ds-eyebrow {
+  color: var(--color-primary);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-extrabold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+}
+
+.ds-muted {
+  color: var(--color-text-muted);
+}
+
+.ds-subtle {
+  color: var(--color-text-subtle);
+}

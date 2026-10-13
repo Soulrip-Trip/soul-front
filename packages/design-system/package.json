@@ -1,0 +1,27 @@
+{
+  "name": "@soulrip/design-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Soulrip 디자인 시스템 — 토큰, 반응형 타이포그래피, 레이아웃, 공통 Vue 컴포넌트",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles/index.css",
+    "./tokens": "./src/tokens/index.ts",
+    "./composables": "./src/composables/index.ts",
+    "./locale": "./src/locale/index.ts",
+    "./components": "./src/components/index.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@soulrip/font-suit": "*",
+    "@soulrip/library": "*"
+  },
+  "peerDependencies": {
+    "lucide-vue-next": "^1.0.0",
+    "vue": "^3.5.0",
+    "vue-router": "^5.0.0"
+  }
+}
