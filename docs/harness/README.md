@@ -81,7 +81,7 @@ soulrip-frontend/
 
 `.github/instructions/*.instructions.md`는 `applyTo` glob과 일치하는 파일을 작업할 때 자동으로 적용된다.
 
-예를 들어 `src/services/api.ts`를 수정하면 API 서비스 규칙이 적용되고, `src/components/PlaceCard.vue`를 수정하면 컴포넌트 규칙이 적용된다.
+예를 들어 `packages/api/src/domains/place/place.api.ts`를 수정하면 API 서비스 규칙이 적용되고, `src/entities/place/ui/PlaceCard.vue`를 수정하면 컴포넌트 규칙이 적용된다.
 
 ### 3. Reusable Task Prompts
 

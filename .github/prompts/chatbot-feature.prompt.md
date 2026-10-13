@@ -7,7 +7,7 @@ agent: agent
 
 다음 Soulrip 챗봇 기능을 작업한다. `${input:change:변경할 챗봇 기능}`
 
-수정하기 전에 `src/components/ChatBot.vue`, `api.chat`, 챗봇 관련 타입을 확인한다.
+수정하기 전에 `src/widgets/chatbot`(ui/model), `chatApi.sendMessage`, `packages/api/src/domains/chat` 타입, `chat.*` 다국어 문구을 확인한다.
 
 요구사항에서 명시적으로 바꾸지 않는 한 다음 불변조건을 유지한다.
 

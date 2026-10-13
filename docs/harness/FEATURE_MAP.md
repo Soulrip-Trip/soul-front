@@ -1,28 +1,28 @@
 # Soulrip Feature Map
 
-| 도메인 | 주요 Route | View | Component | Service | Shared Type |
-|---|---|---|---|---|---|
-| Home | `/` | `HomeView.vue` | `HeroSection`, 공통 UI | AI insight 사용 가능 | `TodayInsightResponse` |
-| Places | `/explore`, `/places/:id` | `ExploreView`, `PlaceDetailView` | `PlaceCard`, `MapEmbed` | `getPlaces`, `getPlace` | `Place`, `PlaceCategory` |
-| Festivals | `/festivals`, `/festivals/:id` | `FestivalsView`, `FestivalDetailView` | `FestivalCard`, `MapEmbed` | `getFestivals`, `getFestival` | `Festival`, `PaginationMeta` |
-| Community | `/community`, `/community/new`, `/community/:id`, `/community/:id/edit` | `CommunityListView`, `CommunityFormView`, `CommunityDetailView` | `PostCard` | posts/likes/comments methods | `CommunityPost`, `PostPayload`, `PostType`, `Comment`, `LikeResponse` |
-| Chatbot | global widget | — | `ChatBot.vue` | `chat` | `ChatHistoryItem`, `ChatResponse`, `ChatSource` |
-| App state | global | — | Nav/Footer/ChatBot consumers | — | `Lang` |
+| 도메인 | 주요 Route | Page | Widget / Feature / Entity | API (`@soulrip/api`) |
+|---|---|---|---|---|
+| Home | `/` | `pages/home` | `today-insight`, `PlaceCard`, `FestivalCard`, `PostCard` | `placeApi`, `festivalApi`, `postApi`, `insightApi` |
+| Place | `/explore`, `/places/:id` | `pages/place` | `place-filter`, `place-bookmark`, `share-link`, `location-map`, `entities/place` | `placeApi` (`Place`, `PlaceCategory`) |
+| Festival | `/festivals`, `/festivals/:id` | `pages/festival` | `festival-month-filter`, `festival-calendar`, `location-map`, `entities/festival` | `festivalApi` (`Festival`) |
+| Post | `/community`, `/community/new`, `/community/:id`, `/community/:id/edit` | `pages/post` | `post-filter`, `post-editor`, `post-like`, `post-delete`, `post-comments`, `comment-create`, `entities/post`, `entities/comment` | `postApi`, `commentApi`, `likeApi` |
+| Chat | 전역 위젯 | — | `widgets/chatbot` | `chatApi` |
+| App | 전역 | `pages/not-found` | `app-header`, `mobile-tab-bar`, `app-footer`, `theme-toggle`, `language-switch` | — |
 
 ## Change Impact Examples
 
 ### Add Place Filter
 
-`PlaceCategory` → `api.getPlaces` category mapping → `ExploreView` filter UI → 필요 시 `PlaceCard` label을 확인한다.
+`PlaceCategory`(api types) → `PLACE_CATEGORY_CONTENT_TYPES`(place.api) → `PLACE_FILTERS`(entities/place) → `t.place.filters` 7개 언어 → `PlaceFilterBar`
 
 ### Add Festival API Field
 
-`Festival` 타입 → `api` 응답 contract → `FestivalsView`/`FestivalCard`/`FestivalDetailView` 표시를 확인한다.
+`festival.types.ts` → `entities/festival/lib` → `FestivalCard` / `FestivalDetailPage`
 
 ### Add Community Post Type
 
-`PostType` → 목록 필터 → 폼 선택지 → 상세 type label/icon → API payload/query를 확인한다.
+`PostType`(post.types) → `POST_FILTER_TYPES` / `WRITABLE_POST_TYPES` / 아이콘(entities/post) → `t.post.types` 7개 언어
 
 ### Add Supported Language
 
-`Lang` → `useApp.languages` → app messages → static i18n → chatbot dictionary → backend chat language 지원을 확인한다.
+`Lang` + `LANGUAGES`(@soulrip/config) → `src/shared/i18n/locales/<code>.ts` 생성(`Messages` 타입) → `shared/i18n/index.ts` 등록 → 백엔드 chat language 지원 확인

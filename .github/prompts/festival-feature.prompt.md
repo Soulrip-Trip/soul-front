@@ -7,7 +7,7 @@ agent: agent
 
 다음 Soulrip 축제 기능을 작업한다. `${input:change:변경할 축제 기능}`
 
-수정하기 전에 `FestivalsView.vue`, `FestivalCard.vue`, 축제 상세 화면, `api.getFestivals`, `api.getFestival`, `Festival`, `PaginationMeta` 타입을 확인한다.
+수정하기 전에 `src/pages/festival`, `src/widgets/festival-calendar`, `src/entities/festival`, `festivalApi.getFestivals`, `festivalApi.getFestival`, `Festival`, `PaginationMeta` 타입을 확인한다.
 
 다음 요구사항을 유지한다.
 

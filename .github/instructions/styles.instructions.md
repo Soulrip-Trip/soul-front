@@ -1,14 +1,15 @@
 ---
-name: Soulrip Global Styles
+name: Soulrip Design System Styles
 description: 디자인 토큰과 전역 CSS에 적용하는 규칙이다
-applyTo: "src/styles.css"
+applyTo: "packages/design-system/src/styles/**/*.css,src/app/styles/**/*.css"
 ---
 
 # Global Style Rules
 
-- 비슷한 색상, 그림자, 카드, 버튼, 컨테이너, 배지, 태그, 그리드를 새로 만들기 전에 프로젝트의 기존 CSS 변수와 공통 클래스를 재사용한다.
-- 여러 화면에서 재사용되는 시각적 토큰과 패턴은 이 파일에 둔다. 특정 페이지나 컴포넌트에만 필요한 스타일은 해당 SFC의 scoped style에 둔다.
-- 디자인 토큰을 사용하는 색상은 라이트 및 다크 테마에서 모두 동작하도록 유지한다.
-- 반응형 제약 없이 모바일 화면을 깨뜨리는 고정 픽셀 너비를 사용하지 않는다.
-- 상호작용 요소의 포커스 표시와 읽을 수 있는 명암비를 확인한다.
-- 기능 작업의 부수 효과로 대규모 포맷 변경이나 시각적 재설계를 수행하지 않는다.
+- 토큰은 `tokens.css`(색·그림자·반경·간격·z-index·모션), 반응형 글자 크기는 `typography.css`, 레이아웃은 `layout.css`에 둔다.
+- 색상은 의미 이름(`--color-primary`, `--color-text-muted` …)으로만 추가하고 라이트/다크 값을 함께 정의한다.
+- 브레이크포인트는 360/480/768/1024/1280/1440/1920px만 사용하고 모바일 퍼스트(`min-width`)로 작성한다.
+  값을 바꾸면 `src/tokens/breakpoints.ts`와 `docs/DESIGN_SYSTEM.md`도 함께 수정한다.
+- 글자 크기는 `--fs-*` 토큰, 간격은 `--space-*` 토큰을 사용한다. 고정 px 너비로 모바일을 깨뜨리지 않는다.
+- 전역 클래스는 `ds-` 접두사를 사용한다. 특정 화면 전용 스타일은 해당 SFC의 scoped style에 둔다.
+- 포커스 표시와 명암비, `prefers-reduced-motion`을 유지한다.
