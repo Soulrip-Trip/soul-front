@@ -7,7 +7,7 @@
 | Festival | `/festivals`, `/festivals/:id` | `pages/festival` | `festival-month-filter`, `festival-calendar`, `location-map`, `entities/festival` | `festivalApi` (`Festival`) |
 | Post | `/community`, `/community/new`, `/community/:id`, `/community/:id/edit` | `pages/post` | `post-filter`, `post-editor`, `post-like`, `post-delete`, `post-comments`, `comment-create`, `entities/post`, `entities/comment` | `postApi`, `commentApi`, `likeApi` |
 | Chat | 전역 위젯 | — | `widgets/chatbot` | `chatApi` |
-| Journey (게이미피케이션) | 홈 `#journey` | `pages/home` | `widgets/journey-map`, `widgets/journey-toast`, `entities/journey` | — (localStorage) |
+| Journey (게이미피케이션) | 홈 `#journey` | `pages/home` | `widgets/journey-map`(서울 자치구 지도 + 추천), `widgets/journey-toast`, `entities/district`, `entities/journey` | `placeApi.getPlaces({ search: 구 이름 })`, 실패 시 예시 데이터 |
 | App | 전역 | `pages/not-found` | `app-header`, `mobile-tab-bar`, `app-footer`, `theme-toggle`, `language-switch` | — |
 
 ## Change Impact Examples
