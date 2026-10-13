@@ -168,7 +168,6 @@ const stats = computed(() => {
 }
 
 .home-hero__highlight {
-  position: relative;
   display: block;
   width: fit-content;
   margin-inline: auto;
@@ -179,18 +178,6 @@ const stats = computed(() => {
   .home-hero__highlight {
     margin-inline: 0;
   }
-}
-
-.home-hero__highlight::after {
-  position: absolute;
-  right: 0;
-  bottom: -0.15em;
-  left: 0;
-  height: 0.12em;
-  border-radius: var(--radius-pill);
-  content: '';
-  background: color-mix(in srgb, var(--color-primary) 40%, transparent);
-  transform: rotate(-1deg);
 }
 
 .home-hero__description {
