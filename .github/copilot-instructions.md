@@ -35,6 +35,7 @@ Soulrip은 서울에서 혼자 여행하는 사용자(외국인 포함)를 위�
 - 축제 탐색: 월 필터 · 달력(한 달치 별도 요청) · 페이지네이션을 함께 관리한다.
 - 커뮤니티: 익명 구조. 게시글 CRUD에 닉네임·비밀번호, 좋아요는 `client_id`, 댓글 생성 시 목록과 개수를 함께 맞춘다.
 - 챗봇: `chatApi.sendMessage`로 메시지, 최근 대화, 현재 언어를 보내며 로딩 중 중복 전송을 막는다.
+- 여정 지도: 서울 자치구 지도(`entities/district`) + 구별 추천(`widgets/journey-map`). 미션 완료는 `completeJourneyStep(id)`.
 
 ## Verification Rules
 

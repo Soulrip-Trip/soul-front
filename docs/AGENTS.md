@@ -28,7 +28,7 @@ Soulrip은 서울 공공데이터를 기반으로 혼자 여행하는 사용자�
 
 ```text
 library/                    @soulrip/library      도메인 무관 유틸 (date, pagination, async, storage,
-                                                  browser, string, url, geo, vue 컴포저블)
+                                                  browser, string, url, geo, array, vue 컴포저블)
 packages/
 ├─ config/                  @soulrip/config       환경 변수, 언어 목록, 저장소 키, 페이지 크기
 ├─ font-suit/               @soulrip/font-suit    SUIT Variable 웹폰트 (OFL)
@@ -39,11 +39,13 @@ src/                        FSD 레이어 (위 → 아래로만 import)
 ├─ app/                     앱 진입점, 라우터, 루트 레이아웃, 앱 전용 CSS
 ├─ pages/                   서버 도메인별 페이지: home, place, festival, post, not-found
 ├─ widgets/                 조합 블록: app-header, mobile-tab-bar, app-footer, chatbot,
-│                           today-insight, festival-calendar, location-map, post-comments
+│                           today-insight, festival-calendar, location-map, post-comments,
+│                           journey-map(서울 자치구 지도 + 추천), journey-toast(미션 완료 알림)
 ├─ features/                사용자 행동: place-filter, post-filter, festival-month-filter,
 │                           post-like, post-delete, post-editor, comment-create,
 │                           place-bookmark, share-link, theme-toggle, language-switch
-├─ entities/                도메인 모델 + 표시 UI: place, festival, post, comment
+├─ entities/                도메인 모델 + 표시 UI: place, festival, post, comment,
+│                           district(25개 구·지도·예시 데이터), journey(미션·레벨)
 └─ shared/                  i18n(7개 언어 사전), model(테마·언어), config(라우트·내비), lib, assets
 ```
 
@@ -120,6 +122,14 @@ src/                        FSD 레이어 (위 → 아래로만 import)
 
 - `/chat` 요청에는 메시지, 최근 대화 기록(`CHAT_HISTORY_LIMIT`), 현재 언어가 전달된다.
 - 로딩 중 전송을 차단한다. 인사말·오류 문구는 언어 전환 시 즉시 현재 언어로 표시된다.
+- 열림 상태는 `useChatbotLauncher`(shared/model)로 전역 공유한다.
+
+### Journey (게이미피케이션)
+
+- 홈 여정 지도는 서울 25개 자치구 SVG 지도다. 구 검색은 항상 한국어 구 이름(`q=종로구`)으로 한다.
+- 구 선택 시 무작위 최대 10곳, 미선택(ALL)은 여러 구가 섞이도록 고른다. API 실패 시 예시 데이터를 "예시 데이터"로 표시한다.
+- "전체 보기"는 서울 탐색(`/explore?q=<구 이름>`)으로 이동한다.
+- 미션 완료는 실제 행동 성공 시점에 `completeJourneyStep(id)`로 기록한다. 진행 상황은 localStorage에만 저장한다.
 
 ## 9. i18n Rules
 
