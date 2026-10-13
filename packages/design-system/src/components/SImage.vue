@@ -32,7 +32,7 @@ watch(
 <template>
   <div
     class="s-image"
-    :class="{ 's-image--fill': fill }"
+    :class="{ 's-image--fill': fill, 's-image--ratio': ratio && !fill }"
     :style="ratio && !fill ? { aspectRatio: ratio } : undefined"
   >
     <img
@@ -60,6 +60,12 @@ watch(
 .s-image--fill {
   position: absolute;
   inset: 0;
+}
+
+/* 비율·채우기 모드에서는 상자 크기가 정해져 있으므로 대체 화면 최소 높이를 쓰지 않는다. (아이콘 가운데 정렬) */
+.s-image--ratio .s-image__fallback,
+.s-image--fill .s-image__fallback {
+  min-height: 0;
 }
 
 .s-image img {
